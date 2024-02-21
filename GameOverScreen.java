@@ -1,8 +1,19 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,8 +35,10 @@ public class GameOverScreen extends JFrame {
     private static final int FRAME_HEIGHT = 1100;
     private static final Color BACKGROUND_COLOR = Color.black;
     private static final Color FOREGROUND_COLOR = Color.white;
-    private final boolean playerWon = true;
 
+    private boolean playerWon;
+
+    private Font tarotFont;
     
     private JPanel statusPanel;
     private JLabel statusLabel;
@@ -36,6 +49,8 @@ public class GameOverScreen extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(BACKGROUND_COLOR);
+
+        createCustomFont(); //this initializes the custom font
         
         makeStatusPanel();
         
@@ -58,6 +73,7 @@ public class GameOverScreen extends JFrame {
         statusLabel = new JLabel();
         
         statusLabel.setHorizontalAlignment(JLabel.CENTER);
+        statusLabel.setFont(tarotFont);
         statusLabel.setForeground(FOREGROUND_COLOR);
         statusPanel.add(statusLabel);
 
@@ -72,6 +88,20 @@ public class GameOverScreen extends JFrame {
             statusLabel.setText("You Lose");
         }
     };
+
+    private void createCustomFont() {
+        try {
+            //create the font to use. Specify the size!
+            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("TarotPamelaColmanSmith-Regular.ttf")).deriveFont(30f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(tarotFont);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(FontFormatException e) {
+            e.printStackTrace();
+        }
+    }
     
 
 }
