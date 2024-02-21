@@ -59,6 +59,8 @@ public class GameOverScreen extends JFrame {
         
         statusLabel.setHorizontalAlignment(JLabel.CENTER);
         statusLabel.setForeground(FOREGROUND_COLOR);
+        statusPanel.add(statusLabel);
+
         return statusPanel;
     }
     
