@@ -4,19 +4,19 @@ import org.junit.jupiter.api.Test;
 
 class LetterGuessCheckerTester {
 
-	LetterGuessChecker letterChecker;
+	GuessAnswerInterface guessChecker;
 	
 	@BeforeEach
 	void beforeEach() {
 		String targetWord = "The Hanged Man";
-		letterChecker = new LetterGuessChecker(targetWord);
+		guessChecker = new LetterGuessChecker(targetWord);
 	}
 	
 	@Test
 	void testValidLetterLowerCase() {
 		String guessedLetter = "a";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
@@ -25,7 +25,7 @@ class LetterGuessCheckerTester {
 	void testValidLetterUpperCase() {
 		String guessedLetter = "C";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
@@ -34,7 +34,7 @@ class LetterGuessCheckerTester {
 	void testValidLetterNumber() {
 		String guessedLetter = "9";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
@@ -43,7 +43,7 @@ class LetterGuessCheckerTester {
 	void testValidLetterSpecialSymbol() {
 		String guessedLetter = "!";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, false);
 	}
@@ -52,7 +52,7 @@ class LetterGuessCheckerTester {
 	void testSingleLetterProvided() {
 		String guessedLetter = "A";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
@@ -61,7 +61,7 @@ class LetterGuessCheckerTester {
 	void testOverOneLetterProvided() {
 		String guessedLetter = "ABC";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, false);
 	}
@@ -70,25 +70,28 @@ class LetterGuessCheckerTester {
 	void testEmptyLetterProvided() {
 		String guessedLetter = "";
 		
-		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, false);
 	}
 	
 	@Test
 	void testValidGuessInDifferentAlphabet() {
-		String guessedLetter = "щ";
+		String guessedLetterOne = "щ";
+		String guessedLetterTwo = "戈";
 		
-		Boolean inWord = letterChecker.isValidGuess(guessedLetter);
+		Boolean isValidOne = guessChecker.isValidGuess(guessedLetterOne);
+		Boolean isValidTwo = guessChecker.isValidGuess(guessedLetterTwo);
 		
-		assertEquals(inWord, true);
+		assertEquals(isValidOne, true);
+		assertEquals(isValidTwo, true);
 	}
 	
 	@Test
 	void testLetterInWord() {
 		String guessedLetter = "a";
 		
-		Boolean inWord = letterChecker.isCorrectGuess(guessedLetter);
+		Boolean inWord = guessChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(inWord, true);
 	}
@@ -97,7 +100,7 @@ class LetterGuessCheckerTester {
 	void testLetterInWordIgnoreLowerCase() {
 		String guessedLetter = "E";
 		
-		Boolean firstIsInWord = letterChecker.isCorrectGuess(guessedLetter);
+		Boolean firstIsInWord = guessChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(firstIsInWord, true);
 	}
@@ -106,7 +109,7 @@ class LetterGuessCheckerTester {
 	void testLetterInWordIgnoreUpperCase() {
 		String guessedLetter = "h";
 		
-		Boolean firstIsInWord = letterChecker.isCorrectGuess(guessedLetter);
+		Boolean firstIsInWord = guessChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(firstIsInWord, true);
 	}
@@ -115,32 +118,35 @@ class LetterGuessCheckerTester {
 	void testLetterInWordInvalid() {
 		String guessedLetter = "!";
 		
-		Boolean inWord = letterChecker.isCorrectGuess(guessedLetter);
+		Boolean inWord = guessChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(inWord, false);
 	}
 	
 	@Test
 	void testLetterInWordDifferentAlphabet() {
-		String guessedLetter = "щ";
+		String guessedLetterOne = "щ";
+		String guessedLetterTwo = "戈";
 		
-		Boolean inWord = letterChecker.isCorrectGuess(guessedLetter);
+		Boolean inWordOne = guessChecker.isCorrectGuess(guessedLetterOne);
+		Boolean inWordTwo = guessChecker.isCorrectGuess(guessedLetterTwo);
 		
-		assertEquals(inWord, false);
+		assertEquals(inWordOne, false);
+		assertEquals(inWordTwo, false);
 	}
 	
 	@Test
 	void testSetWord() {
 		String targetWord = "Updated Word";
 		
-		letterChecker.setWord(targetWord);
+		guessChecker.setTargetWord(targetWord);
 				
-		assertEquals(letterChecker.getWord(), targetWord);
+		assertEquals(guessChecker.getTargetWord(), targetWord);
 	}
 	
 	@Test
 	void testGetWord() {
-		String targetWord = letterChecker.getWord();
+		String targetWord = guessChecker.getTargetWord();
 				
 		assertEquals(targetWord, "The Hanged Man");
 	}
