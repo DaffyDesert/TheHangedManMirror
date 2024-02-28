@@ -1,22 +1,37 @@
 
-public class LetterGuessChecker {
+public class LetterGuessChecker implements GuessAnswer {
 	private String targetWord;
 	
 	LetterGuessChecker(String targetWord) {
 		this.targetWord = targetWord;
 	}
 	
-	boolean isValidEnglishCharacter(char letter) {
+	private boolean isValidEnglishCharacter(char letter) {
 		return Character.isLetterOrDigit(letter);
 	}
 	
-	boolean letterInWord(char letter) {
+	private boolean isLetterInput(String word) {
+		return word.length() == 1;
+	}
+	
+	@Override
+	public boolean isValidGuess(String guess) {
+		if(isLetterInput(guess) && isValidEnglishCharacter(guess.charAt(0))) {
+			return true;
+		}
 		
-		Character.toLowerCase(letter);
+		return false;
+	}
+	
+	@Override
+	public boolean isCorrectGuess(String guess) {
 		
-		if(!isValidEnglishCharacter(letter)) {
+		if(!isValidGuess(guess)) {
 			return false;
 		}
+		
+		//Converts the input string to a lower case character
+		char letter = Character.toLowerCase(guess.charAt(0));
 		
 		//Creates a temporary lower case version of word, keeps target word's integrity intact
 		String targetWordLowerCase = targetWord.toLowerCase();
@@ -25,12 +40,11 @@ public class LetterGuessChecker {
 		return targetWordLowerCase.indexOf(letter) != -1;
 	}
 	
-	void setWord(String targetWord) {
+	public void setWord(String targetWord) {
 		this.targetWord = targetWord;
 	}
 	
-	String getWord() {
+	public String getWord() {
 		return this.targetWord;
 	}
-	
 }

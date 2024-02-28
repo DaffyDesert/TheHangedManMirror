@@ -14,75 +14,117 @@ class LetterGuessCheckerTester {
 	
 	@Test
 	void testValidLetterLowerCase() {
-		char guessedLetter = 'a';
+		String guessedLetter = "a";
 		
-		Boolean isValid = letterChecker.isValidEnglishCharacter(guessedLetter);
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
 	
 	@Test
 	void testValidLetterUpperCase() {
-		char guessedLetter = 'C';
+		String guessedLetter = "C";
 		
-		Boolean isValid = letterChecker.isValidEnglishCharacter(guessedLetter);
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
 	
 	@Test
 	void testValidLetterNumber() {
-		char guessedLetter = '9';
+		String guessedLetter = "9";
 		
-		Boolean isValid = letterChecker.isValidEnglishCharacter(guessedLetter);
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, true);
 	}
 	
 	@Test
 	void testValidLetterSpecialSymbol() {
-		char guessedLetter = '!';
+		String guessedLetter = "!";
 		
-		Boolean isValid = letterChecker.isValidEnglishCharacter(guessedLetter);
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(isValid, false);
 	}
 	
 	@Test
-	void testLetterInWord() {
-		char guessedLetter = 'a';
+	void testSingleLetterProvided() {
+		String guessedLetter = "A";
 		
-		Boolean inWord = letterChecker.letterInWord(guessedLetter);
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		
+		assertEquals(isValid, true);
+	}
+	
+	@Test
+	void testOverOneLetterProvided() {
+		String guessedLetter = "ABC";
+		
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		
+		assertEquals(isValid, false);
+	}
+	
+	@Test
+	void testEmptyLetterProvided() {
+		String guessedLetter = "";
+		
+		Boolean isValid = letterChecker.isValidGuess(guessedLetter);
+		
+		assertEquals(isValid, false);
+	}
+	
+	@Test
+	void testValidGuessInDifferentAlphabet() {
+		String guessedLetter = "щ";
+		
+		Boolean inWord = letterChecker.isValidGuess(guessedLetter);
 		
 		assertEquals(inWord, true);
 	}
 	
 	@Test
-	void testLetterInWordIgnoreCase() {
-		char guessedLetter = 'h';
-		char secondGuessedLetter = 'm';
+	void testLetterInWord() {
+		String guessedLetter = "a";
 		
-		Boolean firstIsInWord = letterChecker.letterInWord(guessedLetter);
-		Boolean secondIsInWord = letterChecker.letterInWord(secondGuessedLetter);
+		Boolean inWord = letterChecker.isCorrectGuess(guessedLetter);
+		
+		assertEquals(inWord, true);
+	}
+	
+	@Test
+	void testLetterInWordIgnoreLowerCase() {
+		String guessedLetter = "E";
+		
+		Boolean firstIsInWord = letterChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(firstIsInWord, true);
-		assertEquals(secondIsInWord, true);
+	}
+	
+	@Test
+	void testLetterInWordIgnoreUpperCase() {
+		String guessedLetter = "h";
+		
+		Boolean firstIsInWord = letterChecker.isCorrectGuess(guessedLetter);
+		
+		assertEquals(firstIsInWord, true);
 	}
 	
 	@Test
 	void testLetterInWordInvalid() {
-		char guessedLetter = '!';
+		String guessedLetter = "!";
 		
-		Boolean inWord = letterChecker.letterInWord(guessedLetter);
+		Boolean inWord = letterChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(inWord, false);
 	}
 	
 	@Test
 	void testLetterInWordDifferentAlphabet() {
-		char guessedLetter = 'щ';
+		String guessedLetter = "щ";
 		
-		Boolean inWord = letterChecker.letterInWord(guessedLetter);
+		Boolean inWord = letterChecker.isCorrectGuess(guessedLetter);
 		
 		assertEquals(inWord, false);
 	}
