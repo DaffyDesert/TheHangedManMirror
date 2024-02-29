@@ -7,11 +7,11 @@
  *  a single letter.
  */
 
- public class WordGuess implements GuessAnswerInterface {
+ public class WordGuessChecker implements GuessAnswerInterface {
 
 	 private String targetWord;
     
-	 public WordGuess(String targetWord) {
+	 public WordGuessChecker(String targetWord) {
 		 this.targetWord = targetWord;
 	 }
 

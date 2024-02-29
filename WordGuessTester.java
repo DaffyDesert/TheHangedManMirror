@@ -9,7 +9,7 @@ class WordGuessTester {
 	@BeforeEach
 	void beforeEach() {
 		String targetWord = "The Hanged Man";
-		guessChecker = new WordGuess(targetWord);
+		guessChecker = new WordGuessChecker(targetWord);
 	}
 	
 	@Test
