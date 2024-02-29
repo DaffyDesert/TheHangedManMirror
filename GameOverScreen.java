@@ -151,7 +151,7 @@ public class GameOverScreen extends JFrame {
 
     private void setScoreText(int score) {
         if(playerWon) {
-            String output = String.format("You earned a total of %d points", score);
+            String output = "You earned a total of " + score + " points";
             scoreLabel.setText(output);
         }else{
             String output = "You did not earn any points";
@@ -162,7 +162,7 @@ public class GameOverScreen extends JFrame {
     private void setLevelCompletedText(int level) {
         String output;
         if(playerWon) {
-            output = "You beat all " + level + " levels!";
+            output = "You beat level " + level;
         }
         else {
             output = "You failed to beat level " + level;
