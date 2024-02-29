@@ -7,7 +7,7 @@ public class LetterGuessChecker implements GuessAnswerInterface {
 	}
 	
 	private boolean isValidEnglishCharacter(char letter) {
-		return Character.isLetterOrDigit(letter);
+		return Character.isAlphabetic(letter);
 	}
 	
 	private boolean isLetterInput(String guess) {

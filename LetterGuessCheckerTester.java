@@ -36,7 +36,7 @@ class LetterGuessCheckerTester {
 		
 		Boolean isValid = guessChecker.isValidGuess(guessedLetter);
 		
-		assertEquals(isValid, true);
+		assertEquals(isValid, false);
 	}
 	
 	@Test
