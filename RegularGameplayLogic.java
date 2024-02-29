@@ -48,6 +48,10 @@ public class RegularGameplayLogic {
 		return guessHandler.getGuessStatus();
 	}
 	
+	public ArrayList<String> getIncorrectLetterGuesses() {
+		return guessHandler.getIncorrectLetterGuesses();
+	}
+	
 	public ArrayList<String> getGuessedLetters() {
 		return guessHandler.getGuessedLetters();
 	}

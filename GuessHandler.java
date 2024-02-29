@@ -6,13 +6,11 @@ public class GuessHandler implements GuessHandlerInterface{
 	
 	private String targetWord;
 	private int numGuessesMade;
-	
 	private boolean hasGuessedCorrectWord;
 	
 	private GuessAnswerInterface guessLetterAnswer;
 	private GuessAnswerInterface guessWordAnswer;
 	
-	private ArrayList<String> guessStatusList;
 	private ArrayList<String> guessedLetters;
 	private ArrayList<String> guessedWords;
 
@@ -23,9 +21,9 @@ public class GuessHandler implements GuessHandlerInterface{
 		
 		guessedLetters = new ArrayList<String>();
 		guessLetterAnswer = new LetterGuessChecker(targetWord);
-		guessStatusList = new ArrayList<String>(Collections.nCopies(targetWord.length(), "-"));
 	}
 	
+	@Override
 	public boolean hasGuessedEveryLetterInWord() {
 		for(int i = 0; i < targetWord.length(); i++) {
 			if(!guessedLetters.contains(String.valueOf(targetWord.charAt(i)))) {
@@ -35,14 +33,17 @@ public class GuessHandler implements GuessHandlerInterface{
 		return true;
 	}
 	
+	@Override
 	public boolean hasGuessedCorrectWord() {
 		return hasGuessedCorrectWord;
 	}
 	
+	@Override
 	public boolean isAtGuessLimit() {
 		return numGuessesMade >= maxGuesses;
 	}
 	
+	@Override
 	public boolean targetWordGuessedSuccessfully() {
 		if(hasGuessedEveryLetterInWord() || hasGuessedCorrectWord()) {
 			return true;
@@ -51,59 +52,85 @@ public class GuessHandler implements GuessHandlerInterface{
 		return false;
 	}
 	
+	@Override
 	public boolean hasGuessedLetterBefore(String guess) {
 		return guessedLetters.contains(guess);
 	}
 	
+	@Override
+	public boolean hasGuessedWordBefore(String guess) {
+		return guessedWords.contains(guess);
+	}
+	
+	
+	@Override
 	public boolean isValidLetterGuess(String guess) {
 		return guessLetterAnswer.isValidGuess(guess);
 	}
 	
+	@Override
 	public boolean isValidWordGuess(String guess) {		
 		return hasGuessedCorrectWord = guessWordAnswer.isValidGuess(guess);
 	}
 	
+	@Override
 	public boolean isCorrectLetterGuess(String guess) {
 		guessedLetters.add(guess);
-		updateGuessStatusList();
 		numGuessesMade += 1;
 		
 		return guessLetterAnswer.isCorrectGuess(guess);
 	}
 	
-	//Waiting on Word Guess to be Completed
+	@Override
 	public boolean isCorrectWordGuess(String guess) {
 		guessedWords.add(guess);
-		updateGuessStatusList();
 		numGuessesMade += 1;
 		
 		//return guessWordAnswer.isCorrectGuess(guess);
 		
 		return false;
 	}
-	
-	public void updateGuessStatusList() {
+
+	@Override
+	public ArrayList<String> getGuessStatus() {
+		ArrayList<String> guessStatusList = new ArrayList<String>(Collections.nCopies(targetWord.length(), "-"));
+		
 		for(int i = 0; i < targetWord.length(); i++) {
 			String currentLetter = String.valueOf(targetWord.charAt(i));
 			
-			if(guessedLetters.contains(currentLetter) && guessStatusList.get(i) == "-") {
+			if(guessedLetters.contains(currentLetter)) {
 				guessStatusList.set(i, currentLetter);
 			}
 		}
-	}
-	
-	public ArrayList<String> getGuessStatus() {		
+		
 		return guessStatusList;
 	}
 	
+	@Override
+	public ArrayList<String> getIncorrectLetterGuesses() {
+		ArrayList<String> incorrectLetterGuesses = new ArrayList<String>();
+		
+		for(int i = 0; i < guessedLetters.size(); i++) {
+			String guessedLetter = guessedLetters.get(i);
+			if(!targetWord.contains(guessedLetter)) {
+				incorrectLetterGuesses.add(guessedLetter);
+			}
+		}
+		
+		return incorrectLetterGuesses;
+	}
+	
+	@Override
 	public ArrayList<String> getGuessedLetters() {
 		return guessedLetters;
 	}
 	
+	@Override
 	public ArrayList<String> getGuessedWords() {
 		return guessedWords;
 	}
 	
+	@Override
 	public int getNumGuessesMade() {
 		return numGuessesMade;
 	}
