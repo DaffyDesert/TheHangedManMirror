@@ -9,27 +9,59 @@ public class testGameLogic {
 		
 		gameLogic.startGame();
 		
+		System.out.println("FOR TESTING PURPOSES: WORD = " + gameLogic.getTargetWord());
+		
 		while(!gameLogic.isGameOver()) {			
-			String guess;
+
+			String guessType = "";
+			System.out.print("Word or Letter Guess? (w or l): ");
+			guessType = s.next();
 			
+			while(!guessType.equals("w") && !guessType.equals("l")) {
+				System.out.print("Incorrect Input! Word or Letter Guess? (w or l): ");
+				guessType = s.next();
+			}
+			System.out.println();
+
+			String guess;
 			System.out.print("Make Guess: ");
 			guess = s.next();
 			
-			while(!gameLogic.isValidLetterGuess(guess)) {
-				System.out.println("Invalid Input! Make Guess: ");
-				guess = s.next();
-			}
-			
-			while(gameLogic.hasGuessedLetterBefore(guess)) {
-				System.out.println("Already Guessed! Make Guess: ");
-				guess = s.next();
-			}
-			
-			if(!gameLogic.isCorrectLetterGuess(guess)) {
-				System.out.println("Incorrect Guess!");
+			if(guessType.equals("l")) {
+				while(!gameLogic.isValidLetterGuess(guess)) {
+					System.out.println("Invalid Input! Make Guess: ");
+					guess = s.next();
+				}
+				
+				while(gameLogic.hasGuessedLetterBefore(guess)) {
+					System.out.println("Already Guessed! Make Guess: ");
+					guess = s.next();
+				}
+				
+				if(!gameLogic.isCorrectLetterGuess(guess)) {
+					System.out.println("Incorrect Guess!");
+				}
+				else {
+					System.out.println("Correct Guess!");
+				}
 			}
 			else {
-				System.out.println("Correct Guess!");
+				while(!gameLogic.isValidWordGuess(guess)) {
+					System.out.println("Invalid Input! Make Guess: ");
+					guess = s.next();
+				}
+				
+				while(gameLogic.hasGuessedWordBefore(guess)) {
+					System.out.println("Already Guessed! Make Guess: ");
+					guess = s.next();
+				}
+				
+				if(!gameLogic.isCorrectWordGuess(guess)) {
+					System.out.println("Incorrect Guess!");
+				}
+				else {
+					System.out.println("Correct Guess!");
+				}
 			}
 			
 			System.out.println("Num Guesses: " + gameLogic.getNumGuessesMade());
@@ -38,12 +70,7 @@ public class testGameLogic {
 			
 			System.out.print("Word Status: ");
 			for(int i = 0; i < guessesString.size(); i++) {
-				if(guessesString.get(i) != "") {
-					System.out.print(guessesString.get(i));
-				}
-				else {
-					System.out.print("-");
-				}
+				System.out.print(guessesString.get(i));
 			}
 			
 			System.out.println();
@@ -57,5 +84,7 @@ public class testGameLogic {
 		}
 		
 		System.out.println("Word was: " + gameLogic.getTargetWord());
+		
+		s.close();
 	}
 }

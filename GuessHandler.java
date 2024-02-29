@@ -20,7 +20,10 @@ public class GuessHandler implements GuessHandlerInterface{
 		this.hasGuessedCorrectWord = false;
 		
 		guessedLetters = new ArrayList<String>();
+		guessedWords = new ArrayList<String>();
+		
 		guessLetterAnswer = new LetterGuessChecker(targetWord);
+		guessWordAnswer = new WordGuessChecker(targetWord);
 	}
 	
 	@Override
@@ -70,7 +73,7 @@ public class GuessHandler implements GuessHandlerInterface{
 	
 	@Override
 	public boolean isValidWordGuess(String guess) {		
-		return hasGuessedCorrectWord = guessWordAnswer.isValidGuess(guess);
+		return guessWordAnswer.isValidGuess(guess);
 	}
 	
 	@Override
@@ -86,9 +89,8 @@ public class GuessHandler implements GuessHandlerInterface{
 		guessedWords.add(guess);
 		numGuessesMade += 1;
 		
-		//return guessWordAnswer.isCorrectGuess(guess);
-		
-		return false;
+		hasGuessedCorrectWord = guessWordAnswer.isCorrectGuess(guess);
+		return hasGuessedCorrectWord;
 	}
 
 	@Override
@@ -98,7 +100,12 @@ public class GuessHandler implements GuessHandlerInterface{
 		for(int i = 0; i < targetWord.length(); i++) {
 			String currentLetter = String.valueOf(targetWord.charAt(i));
 			
-			if(guessedLetters.contains(currentLetter)) {
+			if(!hasGuessedCorrectWord) {
+				if(guessedLetters.contains(currentLetter)) {
+					guessStatusList.set(i, currentLetter);
+				}
+			}
+			else {
 				guessStatusList.set(i, currentLetter);
 			}
 		}

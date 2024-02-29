@@ -40,8 +40,16 @@ public class RegularGameplayLogic {
 		return guessHandler.hasGuessedLetterBefore(guess);
 	}
 	
+	public boolean hasGuessedWordBefore(String guess) {
+		return guessHandler.hasGuessedWordBefore(guess);
+	}
+	
 	public boolean isCorrectLetterGuess(String guess) {
 		return guessHandler.isCorrectLetterGuess(guess);
+	}
+	
+	public boolean isCorrectWordGuess(String guess) {
+		return guessHandler.isCorrectWordGuess(guess);
 	}
 	
 	public ArrayList<String> getGuessStatus() {
