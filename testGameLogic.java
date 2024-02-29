@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class testGameLogic {
 
 	public static void main(String[] args) {
-		GameLogic gameLogic = new GameLogic();
+		RegularGameplayLogic gameLogic = new RegularGameplayLogic();
 		Scanner s = new Scanner(System.in);
 		
 		gameLogic.startGame();

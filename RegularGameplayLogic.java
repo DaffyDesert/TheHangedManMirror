@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class GameLogic {
+public class RegularGameplayLogic {
 	private final String fileName = "Words.txt";
 	private String targetWord;
 	
 	private DictionaryInterface dictionary;
 	private GuessHandlerInterface guessHandler;
 	
-	GameLogic() {	
+	RegularGameplayLogic() {	
 		dictionary = new Dictionary(fileName);
 	}
 	
@@ -17,7 +17,7 @@ public class GameLogic {
 	}
 	
 	public boolean isGameOver() {
-		if(guessHandler.targetWordGuessedSuccessfully() || guessHandler.isOverGuessLimit()) {
+		if(guessHandler.targetWordGuessedSuccessfully() || guessHandler.isAtGuessLimit()) {
 			return true;
 		}
 		

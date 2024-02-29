@@ -23,7 +23,7 @@ public class GuessHandler implements GuessHandlerInterface{
 		
 		guessedLetters = new ArrayList<String>();
 		guessLetterAnswer = new LetterGuessChecker(targetWord);
-		guessStatusList = new ArrayList<String>(Collections.nCopies(targetWord.length(), ""));
+		guessStatusList = new ArrayList<String>(Collections.nCopies(targetWord.length(), "-"));
 	}
 	
 	public boolean hasGuessedEveryLetterInWord() {
@@ -39,12 +39,12 @@ public class GuessHandler implements GuessHandlerInterface{
 		return hasGuessedCorrectWord;
 	}
 	
-	public boolean isOverGuessLimit() {
+	public boolean isAtGuessLimit() {
 		return numGuessesMade >= maxGuesses;
 	}
 	
 	public boolean targetWordGuessedSuccessfully() {
-		if((hasGuessedEveryLetterInWord() || hasGuessedCorrectWord()) && !isOverGuessLimit()) {
+		if(hasGuessedEveryLetterInWord() || hasGuessedCorrectWord()) {
 			return true;
 		}
 		
@@ -59,11 +59,7 @@ public class GuessHandler implements GuessHandlerInterface{
 		return guessLetterAnswer.isValidGuess(guess);
 	}
 	
-	public boolean isValidWordGuess(String guess) {
-		guessedWords.add(guess);
-		updateGuessStatusList();
-		numGuessesMade += 1;
-		
+	public boolean isValidWordGuess(String guess) {		
 		return hasGuessedCorrectWord = guessWordAnswer.isValidGuess(guess);
 	}
 	
@@ -76,20 +72,22 @@ public class GuessHandler implements GuessHandlerInterface{
 	}
 	
 	//Waiting on Word Guess to be Completed
-	public boolean isCorrectWordGuess() {
+	public boolean isCorrectWordGuess(String guess) {
+		guessedWords.add(guess);
+		updateGuessStatusList();
+		numGuessesMade += 1;
+		
+		//return guessWordAnswer.isCorrectGuess(guess);
+		
 		return false;
 	}
 	
 	public void updateGuessStatusList() {
 		for(int i = 0; i < targetWord.length(); i++) {
-			
 			String currentLetter = String.valueOf(targetWord.charAt(i));
 			
-			if(guessedLetters.contains(currentLetter)) {
+			if(guessedLetters.contains(currentLetter) && guessStatusList.get(i) == "-") {
 				guessStatusList.set(i, currentLetter);
-			}
-			else {
-				guessStatusList.set(i, "-");
 			}
 		}
 	}
