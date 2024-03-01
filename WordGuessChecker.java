@@ -34,7 +34,7 @@
 
 	@Override
 	public boolean isCorrectGuess(String guess) {
-		return guess.equals(targetWord);
+		return guess.equalsIgnoreCase(targetWord);
 	}
 
 	@Override

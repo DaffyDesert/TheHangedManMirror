@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class testGameLogic {
+public class TestGameLogicMain {
 
 	public static void main(String[] args) {
 		RegularGameplayLogic gameLogic = new RegularGameplayLogic();
@@ -21,7 +21,6 @@ public class testGameLogic {
 				System.out.print("Incorrect Input! Word or Letter Guess? (w or l): ");
 				guessType = s.next();
 			}
-			System.out.println();
 
 			String guess;
 			System.out.print("Make Guess: ");
@@ -36,6 +35,11 @@ public class testGameLogic {
 				while(gameLogic.hasGuessedLetterBefore(guess)) {
 					System.out.println("Already Guessed! Make Guess: ");
 					guess = s.next();
+					
+					while(!gameLogic.isValidLetterGuess(guess)) {
+						System.out.println("Invalid Input! Make Guess: ");
+						guess = s.next();
+					}
 				}
 				
 				if(!gameLogic.isCorrectLetterGuess(guess)) {
@@ -70,9 +74,33 @@ public class testGameLogic {
 			
 			System.out.print("Word Status: ");
 			for(int i = 0; i < guessesString.size(); i++) {
-				System.out.print(guessesString.get(i));
+				if(guessesString.get(i) != "") {
+					System.out.print(guessesString.get(i));
+				}
+				else {
+					System.out.print("-");
+				}
 			}
 			
+			ArrayList<String> guessesMade = gameLogic.getGuessedLetters();
+			
+			System.out.println();
+			
+			System.out.print("Letters Guessed: ");
+			for(int i = 0; i < guessesMade.size(); i++) {
+				System.out.print(guessesMade.get(i) + ", ");
+			}	
+			
+			System.out.println();
+			
+			ArrayList<String> wordGuessesMade = gameLogic.getGuessedWords();
+			
+			System.out.print("Words Guessed: ");
+			for(int i = 0; i < wordGuessesMade.size(); i++) {
+				System.out.print(wordGuessesMade.get(i) + ", ");
+			}	
+			
+			System.out.println();
 			System.out.println();
 		}
 		
