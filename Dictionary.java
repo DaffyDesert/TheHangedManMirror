@@ -8,7 +8,7 @@ import java.util.Random;
 
 
 // Documentation up next
-public class Dictionary {
+public class Dictionary implements DictionaryInterface {
 
 	private List<String> WordList;
 	private int WordCount;
@@ -17,7 +17,9 @@ public class Dictionary {
 	public Dictionary(String FileName) {
 		this.FileName = FileName;
 		this.WordCount = 0;
-		WordList = new ArrayList<String>();
+		this.WordList = new ArrayList<String>();
+		
+		populateWordList();
 	}
 	
 	public boolean populateWordList() {

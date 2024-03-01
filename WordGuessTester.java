@@ -115,6 +115,15 @@ class WordGuessTester {
 	}
 	
 	@Test
+	void testIsCorrectGuessIgnoreCase() {
+		String guessedWord = "the hanged man";
+		
+		Boolean isCorrect = guessChecker.isCorrectGuess(guessedWord);
+		
+		assertEquals(isCorrect, true);
+	}
+	
+	@Test
 	void testIsIncorrectGuess() {
 		String guessedWord = "This is a Test";
 		
