@@ -68,7 +68,7 @@ public class TestGameLogicMain {
 				}
 			}
 			
-			System.out.println("Num Guesses: " + gameLogic.getNumGuessesMade());
+			System.out.println("Num Incorrect Guesses: " + gameLogic.getNumIncorrectGuessesMade());
 			
 			ArrayList<String> guessesString = gameLogic.getGuessStatus();
 			

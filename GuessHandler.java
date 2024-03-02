@@ -5,7 +5,7 @@ public class GuessHandler implements GuessHandlerInterface{
 	private final int maxGuesses = 11;
 	
 	private String targetWord;
-	private int numGuessesMade;
+	private int numIncorrectGuessesMade;
 	private boolean hasGuessedCorrectWord;
 	
 	private GuessAnswerInterface guessLetterAnswer;
@@ -16,7 +16,7 @@ public class GuessHandler implements GuessHandlerInterface{
 
 	GuessHandler(String targetWord) {
 		this.targetWord = targetWord;
-		this.numGuessesMade = 0;
+		this.numIncorrectGuessesMade = 0;
 		this.hasGuessedCorrectWord = false;
 		
 		guessedLetters = new ArrayList<String>();
@@ -43,7 +43,7 @@ public class GuessHandler implements GuessHandlerInterface{
 	
 	
 	public boolean isAtGuessLimit() {
-		return numGuessesMade >= maxGuesses;
+		return numIncorrectGuessesMade >= maxGuesses;
 	}
 	
 	
@@ -91,18 +91,26 @@ public class GuessHandler implements GuessHandlerInterface{
 	
 	public boolean isCorrectLetterGuess(String guess) {
 		guessedLetters.add(guess.toUpperCase());
-		numGuessesMade += 1;
 		
-		return guessLetterAnswer.isCorrectGuess(guess);
+		if(!guessLetterAnswer.isCorrectGuess(guess)) {
+			numIncorrectGuessesMade += 1;
+			return false;
+		}
+		
+		return true;
 	}
 	
 	
 	public boolean isCorrectWordGuess(String guess) {
 		guessedWords.add(guess.toUpperCase());
-		numGuessesMade += 1;
-		
 		hasGuessedCorrectWord = guessWordAnswer.isCorrectGuess(guess);
-		return hasGuessedCorrectWord;
+		
+		if(!hasGuessedCorrectWord) {
+			numIncorrectGuessesMade += 1;
+			return false;
+		}
+		
+		return true;
 	}
 
 	
@@ -150,7 +158,7 @@ public class GuessHandler implements GuessHandlerInterface{
 	}
 	
 	
-	public int getNumGuessesMade() {
-		return numGuessesMade;
+	public int numIncorrectGuessesMade() {
+		return numIncorrectGuessesMade;
 	}
 }
