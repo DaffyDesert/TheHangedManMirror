@@ -112,6 +112,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	/**
 	 * Returns an ArrayList of all letter guesses made by the user
 	 * Characters are in the order that they were guessed
+	 * Characters are returned in all upper-case for uniformity
 	 */
 	public ArrayList<String> getGuessedLetters() {
 		return guessHandler.getGuessedLetters();
@@ -120,14 +121,15 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	/**
 	 * Returns an ArrayList of all word guesses made by the user
 	 * Words are in the order that they were guessed
+	 * Words are returned in all upper-case for uniformity
 	 */
 	public ArrayList<String> getGuessedWords() {
 		return guessHandler.getGuessedWords();
 	}
 	
 	//Returns the number of guessed made by the user so far
-	public int getNumGuessesMade() {
-		return guessHandler.getNumGuessesMade();
+	public int getNumIncorrectGuessesMade() {
+		return guessHandler.numIncorrectGuessesMade();
 	}
 	
 	//Returns the target word chosen by the Game from the Dictionary
