@@ -14,6 +14,6 @@ public interface RegularGameplayLogicInterface {
 	public ArrayList<String> getIncorrectLetterGuesses();
 	public ArrayList<String> getGuessedLetters();
 	public ArrayList<String> getGuessedWords();
-	public int getNumGuessesMade();
+	public int getNumIncorrectGuessesMade();
 	public String getTargetWord();
 }

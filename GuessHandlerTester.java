@@ -67,7 +67,7 @@ class GuessHandlerTester {
 	@Test
 	void testIsAtGuessLimit() {
 		for(int i = 0; i < 11; i++) {
-			guessHandler.isCorrectLetterGuess("a");
+			guessHandler.isCorrectLetterGuess("z");
 		}
 		
 		boolean isAtLimit = guessHandler.isAtGuessLimit();
@@ -162,41 +162,37 @@ class GuessHandlerTester {
 	
 	@Test
 	void testIsCorrectLetterGuessEffects() {
-		int numGuesses = guessHandler.getNumGuessesMade();
-		
 		guessHandler.isCorrectLetterGuess("a");
 		
-		assertEquals(numGuesses + 1, guessHandler.getNumGuessesMade());
+		assertEquals(0, guessHandler.numIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedLetterBefore("a"), true);
 	}
 	
 	@Test
 	void testIsNotCorrectLetterGuessEffects() {
-		int numGuesses = guessHandler.getNumGuessesMade();
+		int numGuesses = guessHandler.numIncorrectGuessesMade();
 		
 		guessHandler.isCorrectLetterGuess("z");
 		
-		assertEquals(numGuesses + 1, guessHandler.getNumGuessesMade());
+		assertEquals(numGuesses + 1, guessHandler.numIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedLetterBefore("z"), true);
 	}
 	
 	@Test
-	void testIsCorrectWordGuessEffects() {
-		int numGuesses = guessHandler.getNumGuessesMade();
-		
+	void testIsCorrectWordGuessEffects() {	
 		guessHandler.isCorrectWordGuess("The Man");
 		
-		assertEquals(numGuesses + 1, guessHandler.getNumGuessesMade());
+		assertEquals(0, guessHandler.numIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedWordBefore("The Man"), true);
 	}
 	
 	@Test
 	void testIsNotCorrectWordGuessEffects() {
-		int numGuesses = guessHandler.getNumGuessesMade();
+		int numGuesses = guessHandler.numIncorrectGuessesMade();
 		
 		guessHandler.isCorrectWordGuess("Not The Man");
 		
-		assertEquals(numGuesses + 1, guessHandler.getNumGuessesMade());
+		assertEquals(numGuesses + 1, guessHandler.numIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedWordBefore("Not The Man"), true);
 	}
 	
