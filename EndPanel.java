@@ -4,6 +4,8 @@ import javax.swing.Box.Filler;
 
 public class EndPanel extends JPanel {
 
+    private boolean wasAgainButtonClicked = false;
+
     public EndPanel() {
         setLayout(new BorderLayout());
 
@@ -34,12 +36,27 @@ public class EndPanel extends JPanel {
         JPanel statusPanel = new JPanel();
 
         JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(e -> quitButtonClicked());
         JButton againButton = new JButton("Play Again?");
+        againButton.addActionListener(e -> againButtonClicked());
 
         statusPanel.add(quitButton);
         statusPanel.add(againButton);
 
         return statusPanel;
+    }
+
+    private void quitButtonClicked() {
+        System.exit(0);
+    }
+
+    private void againButtonClicked() {
+        wasAgainButtonClicked = true;
+        System.out.println("clicked play again button");
+    }
+
+    public boolean wasAgainButtonClicked() {
+        return wasAgainButtonClicked;
     }
 
 }

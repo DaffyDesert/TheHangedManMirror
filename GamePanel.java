@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 
 public class GamePanel extends JPanel {
@@ -6,6 +7,8 @@ public class GamePanel extends JPanel {
     private JLabel hiddenWord;
     private JLabel wrongLetters;
     private JLabel wrongWords;
+    private JTextField guessField;
+    private JLabel drawingLabel;
 
     private RegularGameplayLogic newGame;
 
@@ -13,7 +16,6 @@ public class GamePanel extends JPanel {
         setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel();
-
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftPanel.add(createDrawingPanel());
 
@@ -33,8 +35,7 @@ public class GamePanel extends JPanel {
     private JPanel createDrawingPanel() {
         JPanel tempPanel = new JPanel();
 
-        // FIXME: No drawing yet, for now will be text so you know it goes there
-        JLabel drawingLabel = new JLabel("DRAWING WILL GO HERE");
+        drawingLabel = new JLabel();
         tempPanel.add(drawingLabel);
 
         return tempPanel;
@@ -72,11 +73,15 @@ public class GamePanel extends JPanel {
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridLayout(2, 1));
 
-        JTextField guessField = new JTextField(20);
+        guessField = new JTextField(20);
 
         JPanel buttonPanel = new JPanel();
+
         JButton letterButton = new JButton("Guess Letter");
+        letterButton.addActionListener(e -> letterButtonClicked());
+
         JButton wordButton = new JButton("Guess Word");
+        wordButton.addActionListener(e -> wordButtonClicked());
 
         buttonPanel.add(letterButton);
         buttonPanel.add(wordButton);
@@ -87,8 +92,6 @@ public class GamePanel extends JPanel {
         return tempPanel;
     }
 
-    // add event listener for both buttons
-
     public void runGameRound() {
         // Create instance of a game
         newGame = new RegularGameplayLogic();
@@ -98,61 +101,85 @@ public class GamePanel extends JPanel {
 
         // Set up and adjust screen elements
         updateGameGraphics();
-
-        // Loops, waiting on input
-        boolean isGameComplete = false;
-        int i = 0; // temp
-        while (!isGameComplete) {
-            System.out.println("Round " + i);
-            i++;
-
-            if (i == 2) {
-                isGameComplete = true;
-            }
-        }
-        System.out.println("out of while loop");
     }
 
     // includes image, wrong guess, right guess?
     private void updateGameGraphics() {
-        // Update hidden word with all guessed letters
-
-        // Updates guessing word with all the blanks filled in
         String knownWord = "";
         for (int i = 0; i < newGame.getTargetWord().length(); i++) {
             if (newGame.getGuessStatus().get(i).compareTo("") == 0) {
                 knownWord += "_ ";
             } else {
-                knownWord += newGame.getGuessStatus().get(i) + " ";
+                knownWord += newGame.getGuessStatus().get(i).toUpperCase() + " ";
             }
         }
         hiddenWord.setText(knownWord);
 
-        // Lists out all of the failed letter guesses
         String incorrectLetters = "";
         for (int i = 0; i < newGame.getIncorrectLetterGuesses().size(); i++) {
             incorrectLetters += newGame.getIncorrectLetterGuesses().get(i) + " ";
         }
         wrongLetters.setText("Incorrect Letters: " + incorrectLetters);
 
-        // Lists out all of the failed word guesses
         String incorrectWords = "";
         for (int i = 0; i < newGame.getGuessedWords().size(); i++) {
-            incorrectWords += newGame.getGuessedWords().get(i) + " ";
+            if (!(newGame.getGuessedWords().get(i).compareToIgnoreCase(newGame.getTargetWord()) == 0)) {
+                incorrectWords += newGame.getGuessedWords().get(i) + " ";
+            }
         }
-        wrongWords.setText("Incorrect Words" + incorrectWords);
+        wrongWords.setText("Incorrect Words: " + incorrectWords);
 
-        // Update Image
-        // FIXME
+        System.out.println("number of incorrect guesses is: " + newGame.getNumIncorrectGuessesMade());
+        String imagePath = "images/hangman-0" + newGame.getNumIncorrectGuessesMade() + ".png";
+        drawingLabel.setIcon(new ImageIcon(imagePath));
+
+        guessField.setText("");
     }
 
-    // press letter button
-    private void letterButton() {
-        // validate
-        // has used before
-        // is correct
+    public boolean checkGameOver() {
+        return newGame.isGameOver();
     }
 
-    // press word button
-    // copy from letter button
+    public boolean checkGameWin() {
+        return newGame.isGameWon();
+    }
+
+    private void letterButtonClicked() {
+        // Pull the word from the textfield
+        String userInput = new String(guessField.getText().charAt(0) + "");
+        userInput.toUpperCase();
+        if (newGame.isValidLetterGuess(userInput)) {
+            if (!newGame.hasGuessedLetterBefore(userInput)) {
+                if (newGame.isCorrectLetterGuess(userInput)) {
+                    System.out.println("Correct letter guess.");
+                } else {
+                    System.out.println("Incorrect letter guess, penalty.");
+                }
+            } else {
+                System.out.println("You have guessed this letter before, no penalty.");
+            }
+        } else {
+            System.out.println("Your input is not valid for a letter guess, no penalty.");
+        }
+        updateGameGraphics();
+    }
+
+    private void wordButtonClicked() {
+        String userInput = new String(guessField.getText());
+        userInput.toUpperCase();
+        if (newGame.isValidWordGuess(userInput)) {
+            if (!newGame.hasGuessedWordBefore(userInput)) {
+                if (newGame.isCorrectWordGuess(userInput)) {
+                    System.out.println("Correct word guess.");
+                } else {
+                    System.out.println("Incorrect word guess, penalty.");
+                }
+            } else {
+                System.out.println("You have guessed this word before, no penalty.");
+            }
+        } else {
+            System.out.println("Your input is not valid for a word guess, no penalty.");
+        }
+        updateGameGraphics();
+    }
 }

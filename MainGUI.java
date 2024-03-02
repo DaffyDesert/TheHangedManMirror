@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 
@@ -23,7 +22,11 @@ public class MainGUI extends JFrame {
     private EndPanel endPanel;
 
     // FIXME: Temporary variable used for showing the switching between screens
-    private boolean isGamePanelShown;
+    private enum PanelName {
+        GAME_SCREEN, END_SCREEN
+    }
+
+    private PanelName switchPanel = PanelName.GAME_SCREEN;
 
     // FIXME: Temp variable with string name of theme
     private static String nextTheme = "SunsetTheme";
@@ -39,7 +42,7 @@ public class MainGUI extends JFrame {
         }
 
         MainGUI temp = new MainGUI();
-        
+
         temp.getRootPane().putClientProperty("JRootPane.titleBarBackground", Color.black);
         temp.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
 
@@ -55,14 +58,12 @@ public class MainGUI extends JFrame {
 
         createCardLayout();
 
-        isGamePanelShown = true;
-        updateScreens();
-
-        
         combinePanels();
 
         pack();
         setVisible(true);
+
+        updateScreens();
     }
 
     private void changeTheme(String themeName) {
@@ -113,11 +114,8 @@ public class MainGUI extends JFrame {
 
         // Ensure we are on the right screen
         // FIXME: Have it cycle
-        if (isGamePanelShown) {
-            showGamePanel();
-        } else {
-            showEndPanel();
-        }
+        // call the changePanel();
+        changePanel(switchPanel);
     }
 
     private void createCardLayout() {
@@ -130,7 +128,7 @@ public class MainGUI extends JFrame {
         // FIXME: for the switch button at bottom, will be removed
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
         JButton button = new JButton("Switch Screens (TEMPORARY)");
-        button.addActionListener(e -> switchPanes());
+        // button.addActionListener(e -> switchPanes());
         JButton button2 = new JButton("Switch Themes");
         button2.addActionListener(e -> changeTheme(nextTheme));
 
@@ -146,36 +144,62 @@ public class MainGUI extends JFrame {
         add(createTempButtonsPanel(), BorderLayout.SOUTH);
     }
 
-    // FIXME: for switching screens button only
-    private void switchPanes() {
-        if (isGamePanelShown) {
-            showEndPanel();
-            isGamePanelShown = false;
-        } else {
-            showGamePanel();
-            isGamePanelShown = true;
+    private void changePanel(PanelName currentPanel) {
+        switch (currentPanel) {
+            case GAME_SCREEN:
+                System.out.println("Game Panel");
+                showGamePanel();
+                break;
+            case END_SCREEN:
+                System.out.println("End Panel");
+                showEndPanel();
+                // send over the information about the game here?
+                break;
         }
     }
 
     private void showGamePanel() {
         cLayout.show(screens, GAME_PANEL);
         gamePanel.runGameRound();
+        while (!gamePanel.checkGameOver()) {
+            // FIXME: Isn't ideal at all
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        // FIXME: Should it sit on the screen for a moment so that they can see their
+        // fail or success?
+        switchPanel = PanelName.END_SCREEN;
+        changePanel(switchPanel);
+
     }
 
     private void showEndPanel() {
         cLayout.show(screens, END_PANEL);
+        while (!endPanel.wasAgainButtonClicked()) {
+            // FIXME: Isn't ideal at all
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        switchPanel = PanelName.GAME_SCREEN;
+        changePanel(switchPanel);
     }
 
     private void createFont() {
         try {
-            //create the font to use. Specify the size!
+            // create the font to use. Specify the size!
             tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("Tarot-Font.ttf")).deriveFont(13);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
+            // register the font
             ge.registerFont(tarotFont);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch(FontFormatException e) {
+        } catch (FontFormatException e) {
             e.printStackTrace();
         }
     }

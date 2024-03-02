@@ -136,4 +136,8 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	public String getTargetWord() {
 		return targetWord;
 	}
+
+	public int getMaxGusses() {
+		return guessHandler.getMaxGusses();
+	}
 }

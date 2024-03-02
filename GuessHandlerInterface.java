@@ -16,4 +16,5 @@ public interface GuessHandlerInterface {
 	public ArrayList<String> getGuessedLetters();
 	public ArrayList<String> getGuessedWords();
 	public int numIncorrectGuessesMade();
+	public int getMaxGusses();
 }
