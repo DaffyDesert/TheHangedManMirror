@@ -32,6 +32,9 @@ public class GamePanel extends JPanel {
         add(rightPanel);
     }
 
+    /*
+     * Creates the JPanel containing the hangman image.
+     */
     private JPanel createDrawingPanel() {
         JPanel tempPanel = new JPanel();
 
@@ -41,6 +44,9 @@ public class GamePanel extends JPanel {
         return tempPanel;
     }
 
+    /*
+     * Creates the JPanel containing the hidden/target word.
+     */
     private JPanel createHiddenPanel() {
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new BorderLayout());
@@ -52,6 +58,9 @@ public class GamePanel extends JPanel {
         return tempPanel;
     }
 
+    /*
+     * Creates the JPanel containing all the incorrect word/letter guesses.
+     */
     private JPanel createWrongPanel() {
         JPanel tempPanel = new JPanel();
         BorderLayout tempLayout = new BorderLayout(20, 20);
@@ -69,6 +78,9 @@ public class GamePanel extends JPanel {
         return tempPanel;
     }
 
+    /*
+     * Creates the JPanel containing the user input field and buttons.
+     */
     private JPanel createGuessingPanel() {
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridLayout(2, 1));
@@ -92,18 +104,26 @@ public class GamePanel extends JPanel {
         return tempPanel;
     }
 
+    /*
+     * Starts a round of the game using the game logic.
+     * Calls updateGameGraphics() to ensure screen
+     * shows the game round specific graphics.
+     */
     public void runGameRound() {
-        // Create instance of a game
         newGame = new RegularGameplayLogic();
         newGame.startGame();
 
-        System.out.println("Pulling from game " + newGame.getTargetWord());
+        // FIXME: Can be removed, used for testing/
+        System.out.println("Pulling from game: " + newGame.getTargetWord());
 
-        // Set up and adjust screen elements
         updateGameGraphics();
     }
 
-    // includes image, wrong guess, right guess?
+    /*
+     * Updates the game graphics to reflect updated incorrect and correct guesses.
+     * This includes: the hangman image, hidden word, incorrect letter/word bank
+     * as applicable.
+     */
     private void updateGameGraphics() {
         String knownWord = "";
         for (int i = 0; i < newGame.getTargetWord().length(); i++) {
@@ -136,16 +156,15 @@ public class GamePanel extends JPanel {
         guessField.setText("");
     }
 
-    public boolean checkGameOver() {
-        return newGame.isGameOver();
-    }
-
-    public boolean checkGameWin() {
-        return newGame.isGameWon();
-    }
-
+    /*
+     * Called when the letterButton is pressed.
+     * Takes in the guessField's first letter input, checking
+     * that it is a valid letter guess, hasn't been guessed
+     * before, and is a correct letter guess.
+     * Calls the updateGameGraphics() to change the
+     * graphics to reflect the user guess.
+     */
     private void letterButtonClicked() {
-        // Pull the word from the textfield
         String userInput = new String(guessField.getText().charAt(0) + "");
         userInput.toUpperCase();
         if (newGame.isValidLetterGuess(userInput)) {
@@ -164,6 +183,14 @@ public class GamePanel extends JPanel {
         updateGameGraphics();
     }
 
+    /*
+     * Called when the worddButton is pressed.
+     * Takes in the guessField's string, checking
+     * that it is a valid word guess, hasn't been guessed
+     * before, and is the correct word guess.
+     * Calls the updateGameGraphics() to change the graphics
+     * to reflect the user guess.
+     */
     private void wordButtonClicked() {
         String userInput = new String(guessField.getText());
         userInput.toUpperCase();
@@ -181,5 +208,17 @@ public class GamePanel extends JPanel {
             System.out.println("Your input is not valid for a word guess, no penalty.");
         }
         updateGameGraphics();
+    }
+
+    public boolean isGameOver() {
+        return newGame.isGameOver();
+    }
+
+    public boolean isGameWon() {
+        return newGame.isGameWon();
+    }
+
+    public String getTargetWord() {
+        return newGame.getTargetWord();
     }
 }
