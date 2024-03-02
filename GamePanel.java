@@ -3,14 +3,25 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
+    private JLabel hiddenWord;
+    private JLabel wrongLetters;
+    private JLabel wrongWords;
+
+    private RegularGameplayLogic newGame;
+
     public GamePanel() {
         setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel();
+
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftPanel.add(createDrawingPanel());
 
         JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(3, 1));
+        rightPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        GridLayout rightLayout = new GridLayout(3, 1);
+        rightPanel.setLayout(rightLayout);
         rightPanel.add(createHiddenPanel());
         rightPanel.add(createWrongPanel());
         rightPanel.add(createGuessingPanel());
@@ -33,27 +44,32 @@ public class GamePanel extends JPanel {
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new BorderLayout());
 
-        JLabel hiddenWord = new JLabel("*******");
+        hiddenWord = new JLabel("*******");
         hiddenWord.setHorizontalAlignment(JLabel.CENTER);
-        tempPanel.add(hiddenWord, BorderLayout.SOUTH);
+        tempPanel.add(hiddenWord, BorderLayout.CENTER);
 
         return tempPanel;
     }
 
     private JPanel createWrongPanel() {
         JPanel tempPanel = new JPanel();
-        tempPanel.setLayout(new BorderLayout());
+        BorderLayout tempLayout = new BorderLayout(20, 20);
+        tempPanel.setLayout(tempLayout);
 
-        JLabel wrongLetters = new JLabel("WRONG LETTERS: ");
+        wrongLetters = new JLabel();
         wrongLetters.setHorizontalAlignment(JLabel.CENTER);
-        tempPanel.add(wrongLetters, BorderLayout.CENTER);
+
+        wrongWords = new JLabel();
+        wrongWords.setHorizontalAlignment(JLabel.CENTER);
+
+        tempPanel.add(wrongLetters, BorderLayout.NORTH);
+        tempPanel.add(wrongWords, BorderLayout.CENTER);
 
         return tempPanel;
     }
 
     private JPanel createGuessingPanel() {
         JPanel tempPanel = new JPanel();
-
         tempPanel.setLayout(new GridLayout(2, 1));
 
         JTextField guessField = new JTextField(20);
@@ -70,4 +86,73 @@ public class GamePanel extends JPanel {
 
         return tempPanel;
     }
+
+    // add event listener for both buttons
+
+    public void runGameRound() {
+        // Create instance of a game
+        newGame = new RegularGameplayLogic();
+        newGame.startGame();
+
+        System.out.println("Pulling from game " + newGame.getTargetWord());
+
+        // Set up and adjust screen elements
+        updateGameGraphics();
+
+        // Loops, waiting on input
+        boolean isGameComplete = false;
+        int i = 0; // temp
+        while (!isGameComplete) {
+            System.out.println("Round " + i);
+            i++;
+
+            if (i == 2) {
+                isGameComplete = true;
+            }
+        }
+        System.out.println("out of while loop");
+    }
+
+    // includes image, wrong guess, right guess?
+    private void updateGameGraphics() {
+        // Update hidden word with all guessed letters
+
+        // Updates guessing word with all the blanks filled in
+        String knownWord = "";
+        for (int i = 0; i < newGame.getTargetWord().length(); i++) {
+            if (newGame.getGuessStatus().get(i).compareTo("") == 0) {
+                knownWord += "_ ";
+            } else {
+                knownWord += newGame.getGuessStatus().get(i) + " ";
+            }
+        }
+        hiddenWord.setText(knownWord);
+
+        // Lists out all of the failed letter guesses
+        String incorrectLetters = "";
+        for (int i = 0; i < newGame.getIncorrectLetterGuesses().size(); i++) {
+            incorrectLetters += newGame.getIncorrectLetterGuesses().get(i) + " ";
+        }
+        wrongLetters.setText("Incorrect Letters: " + incorrectLetters);
+
+        // Lists out all of the failed word guesses
+        String incorrectWords = "";
+        for (int i = 0; i < newGame.getGuessedWords().size(); i++) {
+            incorrectWords += newGame.getGuessedWords().get(i) + " ";
+        }
+        wrongWords.setText("Incorrect Words" + incorrectWords);
+
+        // Update Image
+        // FIXME
+    }
+
+    // press letter button
+    private void letterButton() {
+        // validate
+        // has used before
+        // is correct
+    }
+
+    // press word button
+    // copy from letter button
 }

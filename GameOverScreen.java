@@ -200,7 +200,7 @@ public class GameOverScreen extends JFrame {
     private void createCustomFont() {
         try {
             //create the font to use. Specify the size!
-            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("1470Jenson.ttf")).deriveFont(30f);
+            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("Tarot-Font.ttf")).deriveFont(30f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(tarotFont);
