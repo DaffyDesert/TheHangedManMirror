@@ -14,7 +14,6 @@ public class MainGUI extends JFrame {
     private GamePanel gamePanel;
     private EndPanel endPanel;
 
-    // FIXME: Used for screen switching, could be more optimal?
     private enum PanelName {
         GAME_SCREEN, END_SCREEN
     }
@@ -24,7 +23,6 @@ public class MainGUI extends JFrame {
     public final String GAME_PANEL = "Game Panel";
     public final String END_PANEL = "End Panel";
 
-    // FIXME: Temp, for later sprint with font
     public Font tarotFont;
 
     /**
@@ -40,10 +38,10 @@ public class MainGUI extends JFrame {
 
     public MainGUI() {
         setTitle("The Hanged Man: A Hangman Experience");
-        setPreferredSize(new Dimension(1000, 1000)); // FIXME: Will be rewritten when window changing is accounted for
+        setPreferredSize(new Dimension(1000, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        createFont();   // FIXME: temporary, will be used/fixed later
+        createFont();   
 
         createCardLayout();
         pack();
@@ -60,10 +58,10 @@ public class MainGUI extends JFrame {
      * theme changes to apply to all screens.
      */
     private void updateScreens() {
-        // Clear out the old one and make new panels?
+        // Clear out the old one panels from the card
         screens.removeAll();
 
-        // Creating new versions of the screen
+        // Creating new versions of the panels
         gamePanel = new GamePanel();
         endPanel = new EndPanel();
 
@@ -119,14 +117,21 @@ public class MainGUI extends JFrame {
         cLayout.show(screens, GAME_PANEL);
         gamePanel.runGameRound();
         while (!gamePanel.isGameOver()) {
-            // FIXME: Isn't ideal at all
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
-        // FIXME: Should it sit on the screen for a moment so that they can see their
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        gamePanel.cleanUp();
+        
         switchPanel = PanelName.END_SCREEN;
         changePanel(switchPanel);
 
@@ -149,7 +154,6 @@ public class MainGUI extends JFrame {
         endPanel.receiveGameStats(gamePanel.isGameWon(), gamePanel.getTargetWord());
 
         while (!endPanel.isAgainButtonClicked()) {
-            // FIXME: Isn't ideal at all
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
@@ -160,7 +164,6 @@ public class MainGUI extends JFrame {
         changePanel(switchPanel);
     }
 
-    // FIXME: Ignore, for later sprint, was used in testing but unusable at the moment
     private void changeTheme(String themeName) {
         if (themeName.compareTo("SunriseTheme") == 0) {
             try {
@@ -192,7 +195,6 @@ public class MainGUI extends JFrame {
         updateScreens();
     }
 
-    // FIXME: Ignore, for later sprint, fonts will not be used in sprint 1
     private void createFont() {
         try {
             // create the font to use. Specify the size!

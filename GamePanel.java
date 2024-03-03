@@ -4,11 +4,9 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
-    private JLabel hiddenWord;
-    private JLabel wrongLetters;
-    private JLabel wrongWords;
+    private JLabel hiddenWord, wrongLetters, wrongWords, drawingLabel, errorLabel;
+
     private JTextField guessField;
-    private JLabel drawingLabel;
 
     private RegularGameplayLogic newGame;
 
@@ -83,7 +81,7 @@ public class GamePanel extends JPanel {
      */
     private JPanel createGuessingPanel() {
         JPanel tempPanel = new JPanel();
-        tempPanel.setLayout(new GridLayout(2, 1));
+        tempPanel.setLayout(new GridLayout(4, 1));
 
         guessField = new JTextField(20);
 
@@ -95,11 +93,16 @@ public class GamePanel extends JPanel {
         JButton wordButton = new JButton("Guess Word");
         wordButton.addActionListener(e -> wordButtonClicked());
 
+        errorLabel = new JLabel();
+        errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        errorLabel.setVerticalAlignment(SwingConstants.NORTH);
+
         buttonPanel.add(letterButton);
         buttonPanel.add(wordButton);
 
         tempPanel.add(guessField);
         tempPanel.add(buttonPanel);
+        tempPanel.add(errorLabel);
 
         return tempPanel;
     }
@@ -112,9 +115,6 @@ public class GamePanel extends JPanel {
     public void runGameRound() {
         newGame = new RegularGameplayLogic();
         newGame.startGame();
-
-        // FIXME: Can be removed, used for testing/
-        System.out.println("Pulling from game: " + newGame.getTargetWord());
 
         updateGameGraphics();
     }
@@ -149,7 +149,6 @@ public class GamePanel extends JPanel {
         }
         wrongWords.setText("Incorrect Words: " + incorrectWords);
 
-        System.out.println("number of incorrect guesses is: " + newGame.getNumIncorrectGuessesMade());
         String imagePath = "images/hangman-0" + newGame.getNumIncorrectGuessesMade() + ".png";
         drawingLabel.setIcon(new ImageIcon(imagePath));
 
@@ -165,20 +164,20 @@ public class GamePanel extends JPanel {
      * graphics to reflect the user guess.
      */
     private void letterButtonClicked() {
-        String userInput = new String(guessField.getText().charAt(0) + "");
+        String userInput = new String(guessField.getText());
         userInput.toUpperCase();
         if (newGame.isValidLetterGuess(userInput)) {
             if (!newGame.hasGuessedLetterBefore(userInput)) {
                 if (newGame.isCorrectLetterGuess(userInput)) {
-                    System.out.println("Correct letter guess.");
+                    errorLabel.setText("Correct letter guess.");
                 } else {
-                    System.out.println("Incorrect letter guess, penalty.");
+                    errorLabel.setText("Incorrect letter guess, penalty.");
                 }
             } else {
-                System.out.println("You have guessed this letter before, no penalty.");
+                errorLabel.setText("You have guessed the letter \'" + userInput + "\' before, no penalty.");
             }
         } else {
-            System.out.println("Your input is not valid for a letter guess, no penalty.");
+            errorLabel.setText("Your input \'" + userInput + "\' is not valid for a letter guess, no penalty.");
         }
         updateGameGraphics();
     }
@@ -197,17 +196,25 @@ public class GamePanel extends JPanel {
         if (newGame.isValidWordGuess(userInput)) {
             if (!newGame.hasGuessedWordBefore(userInput)) {
                 if (newGame.isCorrectWordGuess(userInput)) {
-                    System.out.println("Correct word guess.");
+                    errorLabel.setText("Correct word guess.");
                 } else {
-                    System.out.println("Incorrect word guess, penalty.");
+                    errorLabel.setText("Incorrect word guess, penalty.");
                 }
             } else {
-                System.out.println("You have guessed this word before, no penalty.");
+                errorLabel.setText("You have guessed the word \'" + userInput + "\' before, no penalty.");
             }
         } else {
-            System.out.println("Your input is not valid for a word guess, no penalty.");
+            errorLabel.setText("Your input \'" + userInput + "\' is not valid for a word guess, no penalty.");
         }
         updateGameGraphics();
+    }
+
+    public void cleanUp() {
+        hiddenWord.setText("");
+        wrongLetters.setText("");
+        wrongWords.setText("");
+        drawingLabel.setIcon(null);
+        errorLabel.setText("");
     }
 
     public boolean isGameOver() {

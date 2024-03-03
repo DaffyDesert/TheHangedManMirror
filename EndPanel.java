@@ -5,8 +5,7 @@ public class EndPanel extends JPanel {
 
     private boolean isAgainButtonClicked = false;
 
-    private JLabel statusLabel;
-    private JLabel wordLabel;
+    private JLabel statusLabel, wordLabel;
 
     public EndPanel() {
         setLayout(new BorderLayout());
@@ -75,6 +74,7 @@ public class EndPanel extends JPanel {
      * is displayed to the user.
      */
     public void receiveGameStats(boolean isGameWon, String targetWord) {
+        isAgainButtonClicked = false;
         if (isGameWon) {
             statusLabel.setText("You won!");
         } else {
