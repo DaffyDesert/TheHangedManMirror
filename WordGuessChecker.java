@@ -18,7 +18,7 @@
 	@Override
 	public boolean isValidGuess(String guess) {
 		
-		if(guess == "") {
+		if(guess.equals("")) {
 			return false;
 		}
 		
