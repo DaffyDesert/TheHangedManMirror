@@ -3,71 +3,181 @@ import javax.swing.*;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MainGUI extends JFrame {
-    /*
-     * Names of the panels/screens the game will have
-     */
-    public final String GAME_PANEL = "Game Panel";
-    public final String END_PANEL = "End Panel";
 
-    // Used for switching between screens
     private CardLayout cLayout;
     private JPanel screens;
 
-    // The panels representing each screen
-    private JPanel gamePanel;
-    private JPanel endPanel;
+    private GamePanel gamePanel;
+    private EndPanel endPanel;
 
-    // FIXME: Temporary variable used for showing the switching between screens
-    private boolean isGamePanelShown;
+    private enum PanelName {
+        GAME_SCREEN, END_SCREEN
+    }
 
-    // FIXME: Temp variable with string name of theme
-    private static String nextTheme = "SunsetTheme";
+    private PanelName switchPanel = PanelName.GAME_SCREEN;
 
+    public final String GAME_PANEL = "Game Panel";
+    public final String END_PANEL = "End Panel";
+
+    public Font tarotFont;
+
+    /**
+     * Runs the game
+     */
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new SunriseTheme());
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
-        }
-
         MainGUI temp = new MainGUI();
+
         temp.getRootPane().putClientProperty("JRootPane.titleBarBackground", Color.black);
         temp.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
 
     }
 
     public MainGUI() {
-
         setTitle("The Hanged Man: A Hangman Experience");
-        setPreferredSize(new Dimension(1000, 1000)); // FIXME: Will be rewritten when window changing is accounted for
+        setPreferredSize(new Dimension(1000, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        createMainPanels();
-        combinePanels();
+        createFont();   
 
+        createCardLayout();
         pack();
         setVisible(true);
+
+        changeTheme("SunriseTheme");
+        updateScreens();
+    }
+
+    /**
+     * Should be called in relation to theme changes.
+     * Used to remove all panels from the CardLayout
+     * and readds them. This readding allows for 
+     * theme changes to apply to all screens.
+     */
+    private void updateScreens() {
+        // Clear out the old one panels from the card
+        screens.removeAll();
+
+        // Creating new versions of the panels
+        gamePanel = new GamePanel();
+        endPanel = new EndPanel();
+
+        // Adding them to the screens JPanel
+        screens.add(gamePanel, GAME_PANEL);
+        screens.add(endPanel, END_PANEL);
+
+        changePanel(switchPanel);
+    }
+
+    /**
+     * Creates the JPanel that
+     * uses CardLayout, allowing for
+     * multiple JPanels to be switched
+     * between without having to 
+     * start a new JFrame each time.
+     */
+    private void createCardLayout() {
+        screens = new JPanel();
+        cLayout = new CardLayout();
+        screens.setLayout(cLayout);
+        add(screens);
+    }
+
+    /*
+     * Used to change between panels,
+     * calls the corresponding show
+     * function that sets the JPanel
+     * as visible with CardLayout.
+     */
+    private void changePanel(PanelName currentPanel) {
+        switch (currentPanel) {
+            case GAME_SCREEN:
+                showGamePanel();
+                break;
+            case END_SCREEN:
+                showEndPanel();
+                break;
+        }
+    }
+
+    /*
+     * Called when the GamePanel needs to be shown.
+     *      (called from within changePanel();)
+     * Displays the game panel.
+     * Starts a game round.
+     * 
+     * Also handles sending to the next screen,
+     * awaits for player to win or lose
+     * before sending back to changePanel();
+     */
+    private void showGamePanel() {
+        cLayout.show(screens, GAME_PANEL);
+        gamePanel.runGameRound();
+        while (!gamePanel.isGameOver()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        gamePanel.cleanUp();
+        
+        switchPanel = PanelName.END_SCREEN;
+        changePanel(switchPanel);
+
+    }
+
+    /*
+     * Called when the EndPanel needs to be shown.
+     *      (called from within changePanel();)
+     * Displays the end panel.
+     * Sends over the stats based on the most recent
+     * version of gamePannel. 
+     * 
+     * Also handles sending to the next screen,
+     * awaits button within endPanel to be clicked
+     * before sending back to changePanel();
+     */
+    private void showEndPanel() {
+        cLayout.show(screens, END_PANEL);
+
+        endPanel.receiveGameStats(gamePanel.isGameWon(), gamePanel.getTargetWord());
+
+        while (!endPanel.isAgainButtonClicked()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        switchPanel = PanelName.GAME_SCREEN;
+        changePanel(switchPanel);
     }
 
     private void changeTheme(String themeName) {
         if (themeName.compareTo("SunriseTheme") == 0) {
-            nextTheme = "SunsetTheme";
             try {
                 UIManager.setLookAndFeel(new SunriseTheme());
             } catch (Exception ex) {
                 System.err.println("Failed to initialize SunriseTheme");
             }
         } else if (themeName.compareTo("SunsetTheme") == 0) {
-            nextTheme = "MoonriseTheme";
             try {
                 UIManager.setLookAndFeel(new SunsetTheme());
             } catch (Exception ex) {
                 System.err.println("Failed to initialize SunsetTheme");
             }
         } else if (themeName.compareTo("MoonriseTheme") == 0) {
-            nextTheme = "SunriseTheme";
             try {
                 UIManager.setLookAndFeel(new MoonriseTheme());
             } catch (Exception ex) {
@@ -85,76 +195,17 @@ public class MainGUI extends JFrame {
         updateScreens();
     }
 
-    private void updateScreens() {
-        // Clear out the old one and make new panels?
-        screens.removeAll();
-
-        // Creating new versions of the screen
-        gamePanel = new GamePanel();
-        endPanel = new EndPanel();
-
-        // Adding them to the screens JPanel
-        screens.add(gamePanel, GAME_PANEL);
-        screens.add(endPanel, END_PANEL);
-
-        // Ensure we are on the right screen
-        if (isGamePanelShown) {
-            showGamePanel();
-        } else {
-            showEndPanel();
+    private void createFont() {
+        try {
+            // create the font to use. Specify the size!
+            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("Tarot-Font.ttf")).deriveFont(13);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            // register the font
+            ge.registerFont(tarotFont);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
         }
-    }
-
-    private void createMainPanels() {
-        gamePanel = new GamePanel();
-        endPanel = new EndPanel();
-
-        screens = new JPanel();
-        cLayout = new CardLayout();
-        screens.setLayout(cLayout);
-
-        screens.add(gamePanel, GAME_PANEL);
-        screens.add(endPanel, END_PANEL);
-    }
-
-    private JPanel createTempButtonsPanel() {
-        isGamePanelShown = true;
-
-        // FIXME: for the switch button at bottom, will be removed
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
-        JButton button = new JButton("Switch Screens (TEMPORARY)");
-        button.addActionListener(e -> switchPanes());
-        JButton button2 = new JButton("Switch Themes");
-        button2.addActionListener(e -> changeTheme(nextTheme));
-
-        buttonPanel.add(button);
-        buttonPanel.add(button2);
-
-        return buttonPanel;
-    }
-
-    public void combinePanels() {
-        setLayout(new BorderLayout());
-        add(screens, BorderLayout.CENTER);
-        add(createTempButtonsPanel(), BorderLayout.SOUTH);
-    }
-
-    // FIXME: for switching screens button only
-    private void switchPanes() {
-        if (isGamePanelShown) {
-            showEndPanel();
-            isGamePanelShown = false;
-        } else {
-            showGamePanel();
-            isGamePanelShown = true;
-        }
-    }
-
-    private void showGamePanel() {
-        cLayout.show(screens, GAME_PANEL);
-    }
-
-    private void showEndPanel() {
-        cLayout.show(screens, END_PANEL);
     }
 }

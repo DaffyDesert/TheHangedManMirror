@@ -161,4 +161,8 @@ public class GuessHandler implements GuessHandlerInterface{
 	public int numIncorrectGuessesMade() {
 		return numIncorrectGuessesMade;
 	}
+
+	public int getMaxGuesses() {
+		return maxGuesses;
+	}
 }

@@ -1,40 +1,49 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.Box.Filler;
 
 public class EndPanel extends JPanel {
+
+    private boolean isAgainButtonClicked = false;
+
+    private JLabel statusLabel, wordLabel;
 
     public EndPanel() {
         setLayout(new BorderLayout());
 
-        Box.Filler glue = (Filler) Box.createVerticalGlue();
-        glue.changeShape(glue.getMinimumSize(),
-                new Dimension(0, Short.MAX_VALUE), // make glue greedy
-                glue.getMaximumSize());
-
         Box box = Box.createVerticalBox();
         box.add(createStatusPanel());
         box.add(createButtonPanel());
-        box.add(glue);
 
         add(box, BorderLayout.CENTER);
     }
 
+    /*
+     * Creates the JPanel containing the game results.
+     */
     private JPanel createStatusPanel() {
-        JPanel statusPanel = new JPanel();
+        JPanel statusPanel = new JPanel(new GridLayout(2, 1));
 
-        JLabel statusLabel = new JLabel("You Win");
+        statusLabel = new JLabel();
+        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        wordLabel = new JLabel();
+        wordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         statusPanel.add(statusLabel);
+        statusPanel.add(wordLabel);
 
         return statusPanel;
     }
 
+    /*
+     * Creates the JPanel containing the user buttons.
+     */
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
         JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(e -> quitButtonClicked());
         JButton againButton = new JButton("Play Again?");
+        againButton.addActionListener(e -> againButtonClicked());
 
         statusPanel.add(quitButton);
         statusPanel.add(againButton);
@@ -42,4 +51,39 @@ public class EndPanel extends JPanel {
         return statusPanel;
     }
 
+    /*
+     * Called when the quitButton is pressed.
+     * Quits out the game
+     */
+    private void quitButtonClicked() {
+        System.exit(0);
+    }
+
+    /*
+     * Called when the letterButton is pressed.
+     * Sets the isAgainButtonClicked to true
+     */
+    private void againButtonClicked() {
+        isAgainButtonClicked = true;
+    }
+
+    /*
+     * Receives the game stats from the
+     * player's game through parameters.
+     * Uses these parameters to customize what
+     * is displayed to the user.
+     */
+    public void receiveGameStats(boolean isGameWon, String targetWord) {
+        isAgainButtonClicked = false;
+        if (isGameWon) {
+            statusLabel.setText("You won!");
+        } else {
+            statusLabel.setText("You lost.");
+        }
+        wordLabel.setText("The word was: " + targetWord);
+    }
+
+    public boolean isAgainButtonClicked() {
+        return isAgainButtonClicked;
+    }
 }
