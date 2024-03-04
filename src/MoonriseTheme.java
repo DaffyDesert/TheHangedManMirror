@@ -1,8 +1,6 @@
 import com.formdev.flatlaf.FlatLightLaf;
 
-public class MoonriseTheme
-	extends FlatLightLaf
-{
+public class MoonriseTheme extends FlatLightLaf {
 	public static final String NAME = "MoonriseTheme";
 
 	public static boolean setup() {
