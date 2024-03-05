@@ -149,7 +149,7 @@ public class GamePanel extends JPanel {
         }
         wrongWords.setText("Incorrect Words: " + incorrectWords);
 
-        String imagePath = "images/hangman-0" + newGame.getNumIncorrectGuessesMade() + ".png";
+        String imagePath = "res/images/hangman-0" + newGame.getNumIncorrectGuessesMade() + ".png";
         drawingLabel.setIcon(new ImageIcon(imagePath));
 
         guessField.setText("");

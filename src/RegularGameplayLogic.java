@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class RegularGameplayLogic implements RegularGameplayLogicInterface {
-	private final String fileName = "Words.txt";
+	private final String fileName = "res/Words.txt";
 	private String targetWord;
 	
 	private DictionaryInterface dictionary;

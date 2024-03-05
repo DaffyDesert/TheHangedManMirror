@@ -33,7 +33,6 @@ public class MainGUI extends JFrame {
 
         temp.getRootPane().putClientProperty("JRootPane.titleBarBackground", Color.black);
         temp.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
-
     }
 
     public MainGUI() {
@@ -54,7 +53,7 @@ public class MainGUI extends JFrame {
     /**
      * Should be called in relation to theme changes.
      * Used to remove all panels from the CardLayout
-     * and readds them. This readding allows for 
+     * and reads them. This reading allows for 
      * theme changes to apply to all screens.
      */
     private void updateScreens() {
@@ -198,7 +197,7 @@ public class MainGUI extends JFrame {
     private void createFont() {
         try {
             // create the font to use. Specify the size!
-            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("Tarot-Font.ttf")).deriveFont(13);
+            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Tarot-Font.ttf")).deriveFont(13);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             // register the font
             ge.registerFont(tarotFont);
