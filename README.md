@@ -4,13 +4,9 @@ Introducing The Hanged Man, a modern twist on the classic word-guessing challeng
 During the game, a user can guess a randomly selected word one letter at a time for the chance to win the game upon guessing all letters in the word correctly. Each incorrect guess inches the hangman closer to death, adding a suspenseful layer to every decision you make. 
 This application goes beyond the traditional, offering many features to enhance your gaming experience. Choose from a range of difficulty levels, from novice to expert, to suit your skill level. Immerse yourself in various themes that bring a fresh aesthetic to the classic gameplay, and let the sound effects heighten the tension as you race against the hangman's creation.
 
+## How to Download and Install the Application:
 
-## How to install
-Clone the repository to a local instance, or download and unzip the project's content to a desired folder location.
-
-## Downloading the Source Code:
-
-To execute the program you first need to download the source code. The source can be saved in whichever directory you like. You can do this by either clicking the green "Code" button on GitHub and selecting "Download ZIP" or by using git clone in your terminal
+To execute the program you first need to download the game's source code. You can do this by either clicking the green "Code" button on GitHub and selecting "Download ZIP" or by using git clone in your terminal. The source code must then be unzipped if downloaded and can be saved in whichever directory you like.
 
 ## Executing the program
 
