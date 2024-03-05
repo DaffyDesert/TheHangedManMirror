@@ -19,11 +19,11 @@ The MainGUI.java file will start the program. Start by pressing the play button 
     - The Hangman Figure located on the left-hand side of the window updates as the number of incorrect guesses made by the user increases, denoting the current status of gameplay for the user.
     - The series of dashes located on the top of the right-hand side of the screen denotes the number of letters guessed within the target word and the location of all guessed letters. The user can use this to understand the condition of their current guess state.
     - Located below the status of the target word is the list of all incorrect letters guessed by the user for this current gameplay session, followed by the same for all incorrect words guessed by the user.
-    - Finally, located on the bottom right-hand side of the screen is a textbox for a user to input a letter or word, and submit a guess for either by using the two buttons below the text area. The guessing mechanic of the game will prevent the user from making the same guess twice and will notify them if this is attempted.
+    - Finally, located on the bottom right-hand side of the window is a textbox for the user to input a letter or word, and submit a guess for either by using the two buttons below the text area. The guessing mechanic of the game will prevent the user from making the same guess twice and will notify them if this is attempted.
   
-2. The user will interact with the text area and guess submission buttons as the main form of gameplay. These items within the game window act as the main form of control to play the game.
+2. The user will interact with the text area and guess submission buttons as the main form of gameplay. These items within the game window act as the main form of control for the user to play the game.
       
-3. When the game is over, and the player has either won or lost the game, then they will be directed to a Game Over screen, in which they can choose to quit the game or play again via two provided buttons on the screen.
+3. When the game is over, and the user has either won or lost the game, then they will be directed to a Game Over screen, in which they will be shown their game-ending condition and can choose to quit the game or play again via two provided buttons on the screen.
 
 ## The Team
 - **Scrum Master:** Emily Miller
