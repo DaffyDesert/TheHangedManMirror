@@ -6,14 +6,15 @@ This application goes beyond the traditional, offering many features to enhance 
 
 
 ## How to install
+Clone the repository to a local instance, or download and unzip the project's content to a desired folder location.
 
-### Downloading the Source Code:
+## Downloading the Source Code:
 
 To execute the program you first need to download the source code. The source can be saved in whichever directory you like. You can do this by either clicking the green "Code" button on GitHub and selecting "Download ZIP" or by using git clone in your terminal
 
 ## Executing the program
 
-The MainGUI.java file will start the program. Start by pressing the play button in your preferred IDE. If initializing within an IDE, please ensure the project is set up correctly within your preferred development environment. To run the program successfully, you must add the flatlaf-3.4.jar JAR file to your project's build path to configure the game's various themes that are offered during gameplay. For more information on classpath initialization for Eclipse IDE and Command Line execution, please reference [this](https://www.geeksforgeeks.org/how-to-add-jar-file-to-classpath-in-java/) article.
+The MainGUI.java file will start the program. Start by pressing the play button in your preferred IDE. If initializing within an IDE, please ensure the project is set up correctly within your preferred development environment. To run the program successfully, you must add the `flatlaf-3.4.jar` JAR file to your project's build path to configure the game's various themes that are offered during gameplay. For more information on classpath initialization for Eclipse IDE and Command Line execution, please reference [this](https://www.geeksforgeeks.org/how-to-add-jar-file-to-classpath-in-java/) article.
 
 ## How to Interact
 
