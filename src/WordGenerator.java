@@ -5,53 +5,81 @@ public class WordGenerator {
 	private Dictionary dictionary;
 	private GameDifficulty currentDifficulty;
 	
+	// Constructor
 	public WordGenerator() {
 		this.dictionary = new Dictionary(fileName);
 		this.currentDifficulty = GameDifficulty.NONE;
 	}
 	
-	private boolean IsEasy(String word) {
+	// Determines whether the given word meets the criteria for the easy difficulty
+	// Easy criteria: Word must be less than 6 characters long
+	private boolean isEasy(String word) {
 		
 	}
 	
-	private boolean IsMedium(String word) {
+	// Determines whether the given word meets the criteria for the medium difficulty
+	// Medium criteria: Word must be 6 - 8 characters long (inclusive) && have at least one character
+	// which appears more than once
+	private boolean isMedium(String word) {
 		
 	}
 	
-	private boolean IsHard(String word) {
+	// Determines whether the given word meets the criteria for the hard difficulty
+	// Hard criteria: Word must be 7 characters or longer && no character in the word should appear more than once
+	private boolean isHard(String word) {
 		
 	}
 	
-	public String GetWord(GameDifficulty difficulty) {
-		/*
-		 * Sets the currentDifficulty to difficulty
-		 * Loop
-		 * 	Get a word from dictionary.GetWord
-		 * 	Check if the difficulty is all
-		 * 		If so, return the word.
-		 * 	Check if the difficulty is easy and if the word satisfies that criteria
-		 * 		If so, return it.
-		 * 	Check if the difficulty is medium and if the word satisfies that criteria
-		 * 		If so, return it.
-		 * 	Check if the difficulty is hard and if the word satisfies that criteria
-		 * 		If so, return it.
-		 * End Loop
-		 */
+	public String getWord(GameDifficulty difficulty) {
+		this.currentDifficulty = difficulty;
+		boolean loop = true;
+		
+		String word = "";
+		while (loop) {
+			word  = dictionary.getWord();
+			if (difficulty == GameDifficulty.ALL) return word;
+			
+			if (difficulty == GameDifficulty.EASY) {
+				if (isEasy(word)) {
+					loop = false;
+				}
+				else continue;
+			}
+			else if (difficulty == GameDifficulty.MEDIUM) {
+				if (isMedium(word)) {
+					loop = false;
+				}
+				else continue;
+			}
+			else if (difficulty == GameDifficulty.HARD) {
+				if (isHard(word)) {
+					loop = false;
+				}
+				else continue;
+			}
+		}
+		
+		return word;
 	}
 	
-	public String GetNextWord() {
-		// Call GetWord using currentDifficulty as parameter unless currentDifficulty is none.
+	public String getNextWord() {
+		if (currentDifficulty == GameDifficulty.NONE) {
+			System.out.println("Error in WordGenerator.java, cannot call " + 
+					"WordGenerator.getNextWord() before calling WordGenerator.getWord(GameDifficulty)." + 
+					" this.currentDifficulty not set! WordGenerator.getNextWord() returning null");
+			return null;
+		}
+		
+		return getWord(currentDifficulty);
 	}
 	
-	public GameDifficulty GetWordDifficulty(String word) {
-		/*
-		 * Pass the word into the criteria checking functions.
-		 * Return the corresponding difficulty is is true.
-		 * 
-		 */
+	public GameDifficulty getWordDifficulty(String word) {
+		if (isEasy(word)) return GameDifficulty.EASY;
+		else if (isMedium(word)) return GameDifficulty.MEDIUM;
+		else return GameDifficulty.HARD;
 	}
 	
-	public GameDifficulty GetCurrentDifficulty() {
+	public GameDifficulty getCurrentDifficulty() {
 		return currentDifficulty;
 	}
 }

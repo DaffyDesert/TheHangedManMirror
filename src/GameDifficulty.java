@@ -3,6 +3,6 @@ public enum GameDifficulty {
 	NONE,
 	ALL,
 	EASY,
-	NORMAL,
+	MEDIUM,
 	HARD
 }
