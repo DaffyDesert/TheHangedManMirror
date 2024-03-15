@@ -4,7 +4,10 @@ public class WordGenerator {
 	private final String fileName = "res/Words.txt";
 	private Dictionary dictionary;
 	private GameDifficulty currentDifficulty;
-	
+	private int MINWORD_LENGTH = 6;
+	private int MINHARD_WORDLENGTH = 7;
+	private int MAXMED_WORDLENGTH = 8;
+
 	// Constructor
 	public WordGenerator() {
 		this.dictionary = new Dictionary(fileName);
@@ -14,7 +17,10 @@ public class WordGenerator {
 	// Determines whether the given word meets the criteria for the easy difficulty
 	// Easy criteria: Word must be less than 6 characters long
 	private boolean isEasy(String word) {
-		
+		if(word.length() <= MINWORD_LENGTH) {
+			return true;
+		}
+		return false;
 	}
 	
 	// Determines whether the given word meets the criteria for the medium difficulty
@@ -22,14 +28,33 @@ public class WordGenerator {
 	// which appears more than once
 	private boolean isMedium(String word) {
 		
+		
+		if(word.length() >= MINWORD_LENGTH && word.length() <= MAXMED_WORDLENGTH) {
+			return hasRepeatChars(word);
+		}
+		return false;
 	}
 	
 	// Determines whether the given word meets the criteria for the hard difficulty
 	// Hard criteria: Word must be 7 characters or longer && no character in the word should appear more than once
 	private boolean isHard(String word) {
-		
+		if(word.length() >= MINHARD_WORDLENGTH) {
+			if(!hasRepeatChars(word)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
+	//Determines Whether the given word contains repeating characters by comparing the full length of the string -Wil
+	//to the number of distinct characters. -Wil
+	private boolean hasRepeatChars(String word) {
+		if(word.length() != word.chars().distinct().count()) {
+			return true;
+		}
+		return false;
+	}
+
 	public String getWord(GameDifficulty difficulty) {
 		this.currentDifficulty = difficulty;
 		boolean loop = true;
