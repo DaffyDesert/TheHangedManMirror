@@ -16,5 +16,4 @@ public interface RegularGameplayLogicInterface {
 	public ArrayList<String> getGuessedWords();
 	public int getNumIncorrectGuessesMade();
 	public String getTargetWord();
-	public int getMaxGuesses();
 }

@@ -228,4 +228,8 @@ public class GamePanel extends JPanel {
     public String getTargetWord() {
         return newGame.getTargetWord();
     }
+    
+    public int getNumPoints() {
+    	return newGame.getGamePoints();
+    }
 }

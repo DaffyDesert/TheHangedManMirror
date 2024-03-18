@@ -6,23 +6,28 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	
 	private DictionaryInterface dictionary;
 	private GuessHandlerInterface guessHandler;
+	private PointsHandlerInterface pointsHandler;
 	
 	RegularGameplayLogic() {	
 		dictionary = new Dictionary(fileName);
 	}
 	
 	/**
-	 * Begins a new round of HangMan, and initializes the necessary materials
+	 * Begins a new round of Hangman, and initializes the necessary materials
 	 * Must be called to begin a new round
 	 */
 	public void startGame() {
-		targetWord = dictionary.getWord();	
+		targetWord = dictionary.getWord();
+		pointsHandler = new PointsHandler();
 		guessHandler = new GuessHandler(targetWord);
 	}
 	
 	//Determines if the Game is Over, Returns a Boolean on the game's condition
 	public boolean isGameOver() {
-		if(guessHandler.targetWordGuessedSuccessfully() || guessHandler.isAtGuessLimit()) {
+		if(guessHandler.targetWordGuessedSuccessfully() || guessHandler.isAtGuessLimit()) {	
+			
+			calculateGamePoints();
+			
 			return true;
 		}
 		
@@ -34,7 +39,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return guessHandler.targetWordGuessedSuccessfully();
 	}
 	
-	/*
+	/**
 	 * Determines if the letter guess provided is a valid letter character
 	 * Excludes Numbers and Special Characters
 	 * Used for User Validation Input for Letters
@@ -43,7 +48,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return guessHandler.isValidLetterGuess(guess);
 	}
 	
-	/*
+	/**
 	 * Determines if the word guess provided is a word containing all valid letter character
 	 * Excludes Numbers and Special Characters
 	 * Used for User Validation Input for Words
@@ -52,7 +57,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return guessHandler.isValidWordGuess(guess);
 	}
 	
-	/*
+	/**
 	 * Determines if the letter guess provided has already been guessed by the user
 	 * Returns a boolean on the status of the letter's guess state
 	 * Used for User Validation Input for Letters
@@ -61,7 +66,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return guessHandler.hasGuessedLetterBefore(guess);
 	}
 	
-	/*
+	/**
 	 * Determines if the word guess provided has already been guessed by the user
 	 * Returns a boolean on the status of the word's guess state
 	 * Used for User Validation Input for Words
@@ -70,7 +75,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return guessHandler.hasGuessedWordBefore(guess);
 	}
 	
-	/*
+	/**
 	 * Determines if the letter guess provided is contained within the target word
 	 * Returns a boolean on the status of the letter's guess state
 	 * Used to determine correctness of User Letter Guess Inputs
@@ -79,7 +84,7 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return guessHandler.isCorrectLetterGuess(guess);
 	}
 	
-	/*
+	/**
 	 * Determines if the word guess provided is equal to the target word
 	 * Returns a boolean on the status of the word's guess state
 	 * Used to determine correctness of User Word Guess Inputs
@@ -129,15 +134,21 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	
 	//Returns the number of guessed made by the user so far
 	public int getNumIncorrectGuessesMade() {
-		return guessHandler.numIncorrectGuessesMade();
+		return guessHandler.getNumIncorrectGuessesMade();
 	}
 	
 	//Returns the target word chosen by the Game from the Dictionary
 	public String getTargetWord() {
 		return targetWord;
 	}
-
-	public int getMaxGuesses() {
-		return guessHandler.getMaxGuesses();
+	
+	//Calculates the Current Game Points based on the Guess Critera
+	public void calculateGamePoints() {
+		pointsHandler.calculatePoints(guessHandler.getMaxGuesses() - guessHandler.getNumIncorrectGuessesMade(), guessHandler.getNumCorrectLetterGuessesMade(), guessHandler.targetWordGuessedSuccessfully());
+	}
+	
+	//Returns the Total Game Points for the Current Game Session
+	public int getGamePoints() {
+		return pointsHandler.getTotalPoints();
 	}
 }
