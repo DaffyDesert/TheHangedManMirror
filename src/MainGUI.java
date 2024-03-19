@@ -40,7 +40,8 @@ public class MainGUI extends JFrame {
         setPreferredSize(new Dimension(1000, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        createFont();   
+        //createFont(); 
+        UIManagerUtil.setUIFont("res/Tarot-Font.ttf", 20f);
 
         createCardLayout();
         pack();
