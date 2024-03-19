@@ -44,13 +44,16 @@ public class EndPanel extends JPanel {
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
+        
+        JButton againButton = new JButton(new ChangeToAction("Play Again", GamePanel.NAME, myMain));
+        JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> quitButtonClicked());
-        JButton againButton = new JButton("Play Again?");
-        //againButton.addActionListener(e -> againButtonClicked());
-
-        statusPanel.add(quitButton);
+        
         statusPanel.add(againButton);
+        statusPanel.add(menuButton);
+        statusPanel.add(quitButton);
+        
 
         return statusPanel;
     }
@@ -64,20 +67,19 @@ public class EndPanel extends JPanel {
     }
 
     /*
-     * Receives the game stats from the
-     * player's game through parameters.
-     * Uses these parameters to customize what
-     * is displayed to the user.
+     * XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
      */
     public void parseGameStats(String[] gameInformation) {
         System.out.println("the game is " + gameInformation[0]);
         System.out.println("the word was " + gameInformation[1]);
-        /* 
+        boolean isGameWon = Boolean.parseBoolean(gameInformation[0]);
+        String gameWord = gameInformation[1];
+        
         if (isGameWon) {
             statusLabel.setText("You won!");
         } else {
             statusLabel.setText("You lost.");
         }
-        wordLabel.setText("The word was: " + targetWord);*/
+        wordLabel.setText("The word was: " + gameWord);
     }
 }

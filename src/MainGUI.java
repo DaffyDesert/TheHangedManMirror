@@ -133,8 +133,8 @@ public class MainGUI extends JFrame {
      * before sending back to changePanel();
      */
     private void showGamePanel() {
-        cLayout.show(screens, GAME_PANEL);
-        gamePanel.runGameRound();
+        cLayout.show(screens, GamePanel.NAME);
+        /*gamePanel.runGameRound();
         while (!gamePanel.isGameOver()) {
             try {
                 Thread.sleep(1000);
@@ -152,7 +152,7 @@ public class MainGUI extends JFrame {
         gamePanel.cleanUp();
         
         switchPanel = PanelName.END_SCREEN;
-        changePanel(switchPanel);
+        changePanel(switchPanel);*/
 
     }
 
@@ -233,11 +233,11 @@ public class MainGUI extends JFrame {
         //updates with game stats? to end screen first
         cLayout.show(screens, key);
 
-        //if showing the game card, run game?
-
         //if showing the end card, get game card info and pass through a new version of it?
-        if (key.equals(EndPanel.NAME)) {
-            endPanel.parseGameStats(getGameStats());
+        if (key.equals(EndPanel.NAME) && gamePanel.isGameOver()) {
+            String[] gameInformationArray = getGameStats();
+            updateScreens(EndPanel.NAME);
+            endPanel.parseGameStats(gameInformationArray);
         }
     }
 
