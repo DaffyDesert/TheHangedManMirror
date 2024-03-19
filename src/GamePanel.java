@@ -122,7 +122,7 @@ public class GamePanel extends JPanel {
     public void runGameRound() {
         newGame = new RegularGameplayLogic();
         newGame.startGame();
-
+        System.out.println(newGame.getTargetWord());
         updateGameGraphics();
     }
 
@@ -186,7 +186,7 @@ public class GamePanel extends JPanel {
         } else {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a letter guess, no penalty.");
         }
-
+        updateGameGraphics();
         checkGameOver();
     }
 
@@ -214,7 +214,7 @@ public class GamePanel extends JPanel {
         } else {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a word guess, no penalty.");
         }
-        
+        updateGameGraphics();
         checkGameOver();
     }
 
@@ -225,13 +225,7 @@ public class GamePanel extends JPanel {
      * before sending the player to the end screen.
      */
     public void checkGameOver() {
-        updateGameGraphics();
         if(newGame.isGameOver()) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
             myMain.showCard(EndPanel.NAME);
         }
         
