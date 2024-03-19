@@ -8,14 +8,4 @@ public class Driver {
         });
         
     }
-
-    private static void createAndShowGui() {
-        MainGUI mainPanel = new MainGUI();
-        JFrame frame = new JFrame("Pass Reference");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-        frame.pack();
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
-    }
 }

@@ -218,12 +218,23 @@ public class GamePanel extends JPanel {
         checkGameOver();
     }
 
-    public void cleanUp() {
-        hiddenWord.setText("");
-        wrongLetters.setText("");
-        wrongWords.setText("");
-        drawingLabel.setIcon(null);
-        errorLabel.setText("");
+    /**
+     * Calls update game graphics to reflect
+     * the most recent play by the player.
+     * It then checks to see if the game is over
+     * before sending the player to the end screen.
+     */
+    public void checkGameOver() {
+        updateGameGraphics();
+        if(newGame.isGameOver()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            myMain.showCard(EndPanel.NAME);
+        }
+        
     }
 
     public boolean isGameOver() {
@@ -236,20 +247,5 @@ public class GamePanel extends JPanel {
 
     public String getTargetWord() {
         return newGame.getTargetWord();
-    }
-
-    public void checkGameOver() {
-        updateGameGraphics();
-        if(newGame.isGameOver()) {
-            System.out.println("should clean up screen and wait");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            cleanUp();
-            myMain.showCard(EndPanel.NAME);
-        }
-        
     }
 }

@@ -67,11 +67,12 @@ public class EndPanel extends JPanel {
     }
 
     /*
-     * XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+     * Takes in the game stats as an array,
+     * assigning temp variables with these values and
+     * using them to create the game stats display
+     * information.
      */
     public void parseGameStats(String[] gameInformation) {
-        System.out.println("the game is " + gameInformation[0]);
-        System.out.println("the word was " + gameInformation[1]);
         boolean isGameWon = Boolean.parseBoolean(gameInformation[0]);
         String gameWord = gameInformation[1];
         
