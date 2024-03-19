@@ -41,7 +41,7 @@ public class MainGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //createFont(); 
-        UIManagerUtil.setUIFont("res/Tarot-Font.ttf", 20f);
+        UIManagerUtil.setUIFont("res/Achafont.ttf", 20f);
 
         createCardLayout();
         pack();
