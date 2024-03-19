@@ -13,15 +13,20 @@ public class MainGUI extends JFrame {
 
     private GamePanel gamePanel;
     private EndPanel endPanel;
+    private MainMenuPanel mainPanel;
 
     private enum PanelName {
-        GAME_SCREEN, END_SCREEN
+        GAME_SCREEN, END_SCREEN, MAIN_SCREEN
     }
 
-    private PanelName switchPanel = PanelName.GAME_SCREEN;
-
+    private PanelName switchPanel = PanelName.MAIN_SCREEN;
+    //private PanelName switchPanel = PanelName.GAME_SCREEN;
+    
     public final String GAME_PANEL = "Game Panel";
     public final String END_PANEL = "End Panel";
+    public final String MAIN_PANEL = "Main Menu Panel";
+
+    // testing with event listeners
 
     public Font tarotFont;
 
@@ -61,10 +66,12 @@ public class MainGUI extends JFrame {
         screens.removeAll();
 
         // Creating new versions of the panels
+        mainPanel = new MainMenuPanel();
         gamePanel = new GamePanel();
         endPanel = new EndPanel();
 
         // Adding them to the screens JPanel
+        screens.add(mainPanel, MAIN_PANEL);
         screens.add(gamePanel, GAME_PANEL);
         screens.add(endPanel, END_PANEL);
 
@@ -99,7 +106,17 @@ public class MainGUI extends JFrame {
             case END_SCREEN:
                 showEndPanel();
                 break;
+            case MAIN_SCREEN:
+                showMainPanel();
+                break;
         }
+    }
+
+    /*
+     * 
+     */
+    private void showMainPanel() {
+        cLayout.show(screens, MAIN_PANEL);
     }
 
     /*
