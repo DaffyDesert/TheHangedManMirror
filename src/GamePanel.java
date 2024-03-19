@@ -4,13 +4,18 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
+    public static final String NAME = "GAME";
+
     private JLabel hiddenWord, wrongLetters, wrongWords, drawingLabel, errorLabel;
 
     private JTextField guessField;
 
     private RegularGameplayLogic newGame;
 
-    public GamePanel() {
+    private MainGUI myMain;
+
+    public GamePanel(MainGUI mainPass) {
+        myMain = mainPass;
         setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel();
@@ -28,6 +33,8 @@ public class GamePanel extends JPanel {
 
         add(leftPanel);
         add(rightPanel);
+
+        runGameRound();
     }
 
     /*
@@ -179,7 +186,8 @@ public class GamePanel extends JPanel {
         } else {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a letter guess, no penalty.");
         }
-        updateGameGraphics();
+
+        checkGameOver();
     }
 
     /*
@@ -206,7 +214,8 @@ public class GamePanel extends JPanel {
         } else {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a word guess, no penalty.");
         }
-        updateGameGraphics();
+        
+        checkGameOver();
     }
 
     public void cleanUp() {
@@ -227,5 +236,20 @@ public class GamePanel extends JPanel {
 
     public String getTargetWord() {
         return newGame.getTargetWord();
+    }
+
+    public void checkGameOver() {
+        updateGameGraphics();
+        if(newGame.isGameOver()) {
+            System.out.println("should clean up screen and wait");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            cleanUp();
+            myMain.showCard(EndPanel.NAME);
+        }
+        
     }
 }

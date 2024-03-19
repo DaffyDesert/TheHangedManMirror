@@ -3,11 +3,15 @@ import javax.swing.*;
 
 public class EndPanel extends JPanel {
 
-    private boolean isAgainButtonClicked = false;
+    public static final String NAME = "END";
 
     private JLabel statusLabel, wordLabel;
 
-    public EndPanel() {
+    private MainGUI myMain;
+
+    public EndPanel(MainGUI mainPass) {
+        myMain = mainPass;
+        
         setLayout(new BorderLayout());
 
         Box box = Box.createVerticalBox();
@@ -43,7 +47,7 @@ public class EndPanel extends JPanel {
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> quitButtonClicked());
         JButton againButton = new JButton("Play Again?");
-        againButton.addActionListener(e -> againButtonClicked());
+        //againButton.addActionListener(e -> againButtonClicked());
 
         statusPanel.add(quitButton);
         statusPanel.add(againButton);
@@ -60,30 +64,20 @@ public class EndPanel extends JPanel {
     }
 
     /*
-     * Called when the letterButton is pressed.
-     * Sets the isAgainButtonClicked to true
-     */
-    private void againButtonClicked() {
-        isAgainButtonClicked = true;
-    }
-
-    /*
      * Receives the game stats from the
      * player's game through parameters.
      * Uses these parameters to customize what
      * is displayed to the user.
      */
-    public void receiveGameStats(boolean isGameWon, String targetWord) {
-        isAgainButtonClicked = false;
+    public void parseGameStats(String[] gameInformation) {
+        System.out.println("the game is " + gameInformation[0]);
+        System.out.println("the word was " + gameInformation[1]);
+        /* 
         if (isGameWon) {
             statusLabel.setText("You won!");
         } else {
             statusLabel.setText("You lost.");
         }
-        wordLabel.setText("The word was: " + targetWord);
-    }
-
-    public boolean isAgainButtonClicked() {
-        return isAgainButtonClicked;
+        wordLabel.setText("The word was: " + targetWord);*/
     }
 }

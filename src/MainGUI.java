@@ -26,19 +26,18 @@ public class MainGUI extends JFrame {
     public final String END_PANEL = "End Panel";
     public final String MAIN_PANEL = "Main Menu Panel";
 
-    // testing with event listeners
 
     public Font tarotFont;
 
     /**
      * Runs the game
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         MainGUI temp = new MainGUI();
 
         temp.getRootPane().putClientProperty("JRootPane.titleBarBackground", Color.black);
         temp.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
-    }
+    }*/
 
     public MainGUI() {
         setTitle("The Hanged Man: A Hangman Experience");
@@ -52,7 +51,7 @@ public class MainGUI extends JFrame {
         setVisible(true);
 
         changeTheme("SunriseTheme");
-        updateScreens();
+        updateScreens(MainMenuPanel.NAME);
     }
 
     /**
@@ -61,21 +60,25 @@ public class MainGUI extends JFrame {
      * and reads them. This reading allows for 
      * theme changes to apply to all screens.
      */
-    private void updateScreens() {
+    private void updateScreens(String currentPanel) {
         // Clear out the old one panels from the card
         screens.removeAll();
 
         // Creating new versions of the panels
-        mainPanel = new MainMenuPanel();
-        gamePanel = new GamePanel();
-        endPanel = new EndPanel();
+        mainPanel = new MainMenuPanel(this);
+        gamePanel = new GamePanel(this);
+        endPanel = new EndPanel(this);
 
         // Adding them to the screens JPanel
-        screens.add(mainPanel, MAIN_PANEL);
-        screens.add(gamePanel, GAME_PANEL);
-        screens.add(endPanel, END_PANEL);
+        //screens.add(mainPanel, MAIN_PANEL);
+        //screens.add(gamePanel, GAME_PANEL);
+        //screens.add(endPanel, END_PANEL);
+        screens.add(mainPanel, MainMenuPanel.NAME);
+        screens.add(gamePanel, GamePanel.NAME);
+        screens.add(endPanel, EndPanel.NAME);
 
-        changePanel(switchPanel);
+        //changePanel(switchPanel);
+        showCard(currentPanel);
     }
 
     /**
@@ -104,7 +107,7 @@ public class MainGUI extends JFrame {
                 showGamePanel();
                 break;
             case END_SCREEN:
-                showEndPanel();
+                //showEndPanel();
                 break;
             case MAIN_SCREEN:
                 showMainPanel();
@@ -164,7 +167,7 @@ public class MainGUI extends JFrame {
      * awaits button within endPanel to be clicked
      * before sending back to changePanel();
      */
-    private void showEndPanel() {
+    /*private void showEndPanel() {
         cLayout.show(screens, END_PANEL);
 
         endPanel.receiveGameStats(gamePanel.isGameWon(), gamePanel.getTargetWord());
@@ -178,7 +181,7 @@ public class MainGUI extends JFrame {
         }
         switchPanel = PanelName.GAME_SCREEN;
         changePanel(switchPanel);
-    }
+    }*/
 
     private void changeTheme(String themeName) {
         if (themeName.compareTo("SunriseTheme") == 0) {
@@ -208,7 +211,7 @@ public class MainGUI extends JFrame {
             }
         }
 
-        updateScreens();
+        updateScreens(MainMenuPanel.NAME); //FIXME, replace with custom screen
     }
 
     private void createFont() {
@@ -223,5 +226,25 @@ public class MainGUI extends JFrame {
         } catch (FontFormatException e) {
             e.printStackTrace();
         }
+    }
+
+    //FIXME:::
+    public void showCard(String key) {
+        //updates with game stats? to end screen first
+        cLayout.show(screens, key);
+
+        //if showing the game card, run game?
+
+        //if showing the end card, get game card info and pass through a new version of it?
+        if (key.equals(EndPanel.NAME)) {
+            endPanel.parseGameStats(getGameStats());
+        }
+    }
+
+    //FIXME:::
+    private String[] getGameStats() {
+        System.out.println("enter get game stats");
+        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord()};
+        return gameStats;
     }
 }

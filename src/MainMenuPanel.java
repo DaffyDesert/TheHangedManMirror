@@ -1,31 +1,42 @@
 import javax.swing.*;
 
-import javafx.event.ActionEvent;
-
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class MainMenuPanel extends JPanel {
+
+    public static final String NAME = "MAIN";
+
+    private CardLayout cLayout;
+    private JPanel buttonScreens;
 
     private JButton easyButton, mediumButton, hardButton, extremeButton, arcadeButton, backButton, playButton, howToButton, customButton, quitButton;
 
     private enum ButtonValues {
-        PLAY, HOWTO, CUSTOM, QUIT, EASY, MEDIUM, HARD, EXTREME, ARCADE, BACK
+        PLAY, HOWTO, CUSTOM, QUIT, ARCADE, BACK
     }
 
-    public MainMenuPanel() {
+    private MainGUI myMain;
+
+    public MainMenuPanel(MainGUI mainPass) {
+        myMain = mainPass;
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridLayout(1, 2));
         
-
         tempPanel.add(createDrawingPanel());
-        tempPanel.add(createButtonPanel());
+
+        buttonScreens = new JPanel();
+        cLayout = new CardLayout();
+        buttonScreens.setLayout(cLayout);
+        tempPanel.add(buttonScreens);
+
+        buttonScreens.add(createButtonPanel(), "MAIN_BUTTONS");
+        buttonScreens.add(createGameModeButtons(), "MODE_BUTTONS");
 
         add(tempPanel);
     }
 
     /*
-     * XXXXXXXXXXXXXXXXXX
+     * Creates a JPanel containing the title and image for the game
      */
     private JPanel createDrawingPanel() {
         JPanel tempPanel = new JPanel();
@@ -38,7 +49,7 @@ public class MainMenuPanel extends JPanel {
         subTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel drawingLabel = new JLabel();
-        drawingLabel.setIcon(new ImageIcon("res/images/hangman-011.png"));
+        drawingLabel.setIcon(new ImageIcon("res/images/hangman-title.png"));
         drawingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         box.add(titleLabel);
@@ -51,7 +62,7 @@ public class MainMenuPanel extends JPanel {
     }
 
     /*
-     * XXXXXXXXXXXXXXXXXX
+     * Creates a JPanel containing all of the initial menu buttons
      */
     private JPanel createButtonPanel() {
         JPanel tempPanel = new JPanel();
@@ -59,7 +70,7 @@ public class MainMenuPanel extends JPanel {
         tempLayout.setVgap(80);
         tempPanel.setLayout(tempLayout);
 
-        playButton = new JButton("Play Hanged Man");
+        playButton = new JButton("Play The Hanged Man");
         howToButton = new JButton("How To Play");
         customButton = new JButton("Customization Menu");
         quitButton = new JButton("Quit Game");
@@ -80,25 +91,21 @@ public class MainMenuPanel extends JPanel {
     }
 
     /**
-     * 
+     * Creates a JPanel with all of the game mode buttons
      */
-    private JPanel createGameDifficultyButtons() {
+    private JPanel createGameModeButtons() {
         JPanel tempPanel = new JPanel();
         GridLayout tempLayout = new GridLayout(8, 1);
         tempLayout.setVgap(60);
         tempPanel.setLayout(tempLayout);
 
-        easyButton = new JButton("Easy");
-        mediumButton = new JButton("Medium");
-        hardButton = new JButton("Hard");
-        extremeButton = new JButton("Extreme");
+        easyButton =  new JButton(new ChangeToAction("Easy Mode", GamePanel.NAME, myMain));
+        mediumButton = new JButton(new ChangeToAction("Medium Mode", GamePanel.NAME, myMain));
+        hardButton = new JButton(new ChangeToAction("Hard Mode", GamePanel.NAME, myMain));
+        extremeButton = new JButton(new ChangeToAction("Extreme Mode", GamePanel.NAME, myMain));
         arcadeButton = new JButton("Arcade Mode");
         backButton = new JButton("Back to Main Menu");
 
-        easyButton.addActionListener(e -> buttonClicked(ButtonValues.EASY));
-        mediumButton.addActionListener(e -> buttonClicked(ButtonValues.MEDIUM));
-        hardButton.addActionListener(e -> buttonClicked(ButtonValues.HARD));
-        extremeButton.addActionListener(e -> buttonClicked(ButtonValues.EXTREME));
         arcadeButton.addActionListener(e -> buttonClicked(ButtonValues.ARCADE));
         backButton.addActionListener(e -> buttonClicked(ButtonValues.BACK));
 
@@ -117,16 +124,22 @@ public class MainMenuPanel extends JPanel {
     private void buttonClicked(ButtonValues buttonValue) {
         switch (buttonValue) {
             case PLAY:
-                System.out.println("Pressed play");
+                cLayout.show(buttonScreens, "MODE_BUTTONS");
                 break;
             case HOWTO:
-            System.out.println("Pressed how to");
+                System.out.println("Pressed how to:: Not Yet Implemented");
                 break;
             case CUSTOM:
-                System.out.println("Pressed custom");
+                System.out.println("Pressed custom:: Not Yet Implemented");
                 break;
             case QUIT:
-                System.out.println("Pressed quit");
+                System.exit(0);
+                break;
+            case ARCADE:
+                System.out.println("Pressed arcade:: Not Yet Implemented");
+                break;
+            case BACK: 
+                cLayout.show(buttonScreens, "MAIN_BUTTONS");
                 break;
         }
     }
