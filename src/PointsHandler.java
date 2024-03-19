@@ -10,12 +10,18 @@ public class PointsHandler implements PointsHandlerInterface{
 		totalPoints = 0;
 	}
 	
+	
 	@Override
 	public void calculatePoints(int numGuessesLeft, int numLettersGuessedCorrectly, boolean wasWordGuessed) {
+
+		//Standardizes Input in Case of Miscalculation, Prevents Issues with Score Calculation if were to occur.
+		if(numGuessesLeft < 0) {
+			numGuessesLeft = 0;
+		}
 		
-		System.out.println(numGuessesLeft);
-		System.out.println(numLettersGuessedCorrectly);
-		System.out.println(wasWordGuessed);
+		if(numLettersGuessedCorrectly < 0) {
+			numLettersGuessedCorrectly = 0;
+		}
 		
 		int currPoints = (numGuessesLeft * displayedPartsPointsMultiplier) + (numLettersGuessedCorrectly * lettersGuessedPointsMultiplier);
 		
