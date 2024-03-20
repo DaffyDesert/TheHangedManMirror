@@ -5,16 +5,17 @@ import org.junit.jupiter.api.Test;
 class RegularGameplayLogicTester {
 
 	RegularGameplayLogicInterface gameplayLogic;
+	GameDifficulty difficulty = GameDifficulty.ALL;
 	
 	@BeforeEach
 	void beforeEach() {
 		gameplayLogic = new RegularGameplayLogic();
-		gameplayLogic.startGame();
+		gameplayLogic.startGame(difficulty);
 	}
 
 	@Test
 	void testStartGame() {
-		gameplayLogic.startGame();
+		gameplayLogic.startGame(difficulty);
 		
 		String targetWord = gameplayLogic.getTargetWord();
 		

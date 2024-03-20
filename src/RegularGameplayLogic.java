@@ -1,22 +1,20 @@
 import java.util.ArrayList;
 
 public class RegularGameplayLogic implements RegularGameplayLogicInterface {
-	private final String fileName = "res/Words.txt";
 	private String targetWord;
-	
-	private DictionaryInterface dictionary;
+	private WordGenerator wordGen;
 	private GuessHandlerInterface guessHandler;
 	
 	RegularGameplayLogic() {	
-		dictionary = new Dictionary(fileName);
+		this.wordGen = new WordGenerator();
 	}
 	
 	/**
 	 * Begins a new round of HangMan, and initializes the necessary materials
 	 * Must be called to begin a new round
 	 */
-	public void startGame() {
-		targetWord = dictionary.getWord();	
+	public void startGame(GameDifficulty difficulty) {
+		targetWord = wordGen.getWord(difficulty);	
 		guessHandler = new GuessHandler(targetWord);
 	}
 	
