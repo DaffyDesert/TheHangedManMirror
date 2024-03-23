@@ -114,7 +114,7 @@ public class GamePanel extends JPanel {
      */
     public void runGameRound() {
         newGame = new RegularGameplayLogic();
-        newGame.startGame();
+        newGame.startGame(GameDifficulty.ALL); //TEMPORARY: PLEASE CHANGE. -Wil
 
         updateGameGraphics();
     }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public interface RegularGameplayLogicInterface {
-	public void startGame();
+	public void startGame(GameDifficulty difficulty);
 	public boolean isGameOver();
 	public boolean isGameWon();
 	public boolean isValidLetterGuess(String guess);
