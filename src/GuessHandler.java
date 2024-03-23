@@ -77,11 +77,7 @@ public class GuessHandler implements GuessHandlerInterface{
 	}
 	
 	public boolean isValidLetterGuess(String guess) {
-		if(guessLetterAnswer.isValidGuess(guess)) {
-			return true;
-		}
-		
-		return false;
+		return guessLetterAnswer.isValidGuess(guess);
 	}
 	
 	public boolean isValidWordGuess(String guess) {		

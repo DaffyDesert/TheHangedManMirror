@@ -17,13 +17,12 @@ public class PointsHandler implements PointsHandlerInterface{
 		if(this.currDifficulty.equals(GameDifficulty.MEDIUM)) {
 			return (int)(currPoints * 1.5);
 		}
-		else if(this.currDifficulty.equals(GameDifficulty.HARD)) {
+		
+		if(this.currDifficulty.equals(GameDifficulty.HARD)) {
 			return (int)(currPoints * 2.0);
 		}
-		else {
-			//Defaults to Original Points if NONE, EASY, or any other difficulty is provied
-			return currPoints;
-		}
+			
+		return currPoints;
 	}
 	
 	@Override
