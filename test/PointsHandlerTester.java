@@ -9,7 +9,7 @@ class PointsHandlerTester {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		pointsHandler = new PointsHandler();
+		pointsHandler = new PointsHandler(GameDifficulty.EASY);
 	}
 
 	@Test
@@ -98,6 +98,56 @@ class PointsHandlerTester {
 		int expectedPoints = 0;
 		
 		pointsHandler.calculatePoints(-20, -20, false);
+		
+		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
+	}
+	
+	@Test
+	void testScoreCalculationOnNoneDifficulty() {
+		int expectedPoints = 190;
+		pointsHandler.setGamePointsDifficulty(GameDifficulty.NONE);
+		
+		pointsHandler.calculatePoints(5, 6, true);
+		
+		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
+	}
+	
+	@Test
+	void testScoreCalculationOnAllDifficulty() {
+		int expectedPoints = 190;
+		pointsHandler.setGamePointsDifficulty(GameDifficulty.ALL);
+		
+		pointsHandler.calculatePoints(5, 6, true);
+		
+		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
+	}
+	
+	@Test
+	void testScoreCalculationOnEasyDifficulty() {
+		int expectedPoints = 190;
+		pointsHandler.setGamePointsDifficulty(GameDifficulty.EASY);
+		
+		pointsHandler.calculatePoints(5, 6, true);
+		
+		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
+	}
+	
+	@Test
+	void testScoreCalculationOnMediumDifficulty() {
+		int expectedPoints = 285;
+		pointsHandler.setGamePointsDifficulty(GameDifficulty.MEDIUM);
+		
+		pointsHandler.calculatePoints(5, 6, true);
+		
+		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
+	}
+	
+	@Test
+	void testScoreCalculationOnHardDifficulty() {
+		int expectedPoints = 380;
+		pointsHandler.setGamePointsDifficulty(GameDifficulty.HARD);
+		
+		pointsHandler.calculatePoints(5, 6, true);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}

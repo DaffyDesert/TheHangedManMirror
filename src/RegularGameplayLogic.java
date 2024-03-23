@@ -14,10 +14,15 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	 * Begins a new round of Hangman, and initializes the necessary materials
 	 * Must be called to begin a new round
 	 */
-	public void startGame(GameDifficulty difficulty) {
-		pointsHandler = new PointsHandler();
+	public void startGame(GameDifficulty difficulty) {	
 		targetWord = wordGen.getWord(difficulty);	
 		guessHandler = new GuessHandler(targetWord);
+		
+		if(difficulty.equals(GameDifficulty.ALL)) {
+			difficulty = wordGen.getWordDifficulty(targetWord);
+		}
+		
+		pointsHandler = new PointsHandler(difficulty);	
 	}
 	
 	//Determines if the Game is Over, Returns a Boolean on the game's condition
