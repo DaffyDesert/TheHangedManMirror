@@ -145,6 +145,10 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		return targetWord;
 	}
 	
+	public int getMaxGuesses() {
+		return guessHandler.getMaxGuesses();
+	}
+	
 	//Calculates the Current Game Points based on the Guess Critera
 	public void calculateGamePoints() {
 		pointsHandler.calculatePoints(guessHandler.getMaxGuesses() - guessHandler.getNumIncorrectGuessesMade(), guessHandler.getNumCorrectLetterGuessesMade(), guessHandler.targetWordGuessedSuccessfully());
