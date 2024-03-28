@@ -2,9 +2,9 @@
 public class PointsHandler implements PointsHandlerInterface{
 	private int totalPoints;
 	
-	final int displayedPartsPointsMultiplier = 10;
-	final int lettersGuessedPointsMultiplier = 15;
-	final int wordGuessedPointsAmount = 50;
+	final int DISPLAYEDPARTSPOINTSMULTIPLIER = 10;
+	final int LETTERSGUESSEDPOINTSMULTIPLIER = 15;
+	final int WORDGUESSEDPOINTSAMOUNT = 50;
 	
 	private GameDifficulty currDifficulty;
 	
@@ -32,10 +32,10 @@ public class PointsHandler implements PointsHandlerInterface{
 		if(numGuessesLeft < 0) {numGuessesLeft = 0;}
 		if(numLettersGuessedCorrectly < 0) {numLettersGuessedCorrectly = 0;}
 		
-		int currPoints = (numGuessesLeft * displayedPartsPointsMultiplier) + (numLettersGuessedCorrectly * lettersGuessedPointsMultiplier);
+		int currPoints = (numGuessesLeft * DISPLAYEDPARTSPOINTSMULTIPLIER) + (numLettersGuessedCorrectly * LETTERSGUESSEDPOINTSMULTIPLIER);
 		
 		if(wasWordGuessed) {
-			currPoints += wordGuessedPointsAmount;
+			currPoints += WORDGUESSEDPOINTSAMOUNT;
 		}
 		
 		currPoints = scaleGamePointsByDifficulty(currPoints);
