@@ -133,7 +133,7 @@ public class MainGUI extends JFrame {
      * the round of the game.
      */
     private String[] getGameStats() {
-        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), "5 points", "game difficulty here"};
+        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), gamePanel.getNumPoints(), "game difficulty"};
         return gameStats;
     }
 

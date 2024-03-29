@@ -245,7 +245,7 @@ public class GamePanel extends JPanel {
         return newGame.getTargetWord();
     }
     
-    public int getNumPoints() {
-    	return newGame.getGamePoints();
+    public String getNumPoints() {
+    	return "" + newGame.getGamePoints();
     }
 }

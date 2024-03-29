@@ -86,9 +86,9 @@ public class EndPanel extends JPanel {
         } else {
             statusLabel.setText("You lost.");
         }
+        pointsLabel.setText("Total Points: " + pointsValue);
         wordLabel.setText("The word was: " + gameWord);
     }
 
         //reassign the play again button
-    }
 }
