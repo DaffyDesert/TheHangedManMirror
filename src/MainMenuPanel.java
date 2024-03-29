@@ -20,8 +20,10 @@ public class MainMenuPanel extends JPanel {
     public MainMenuPanel(MainGUI mainPass) {
         myMain = mainPass;
         JPanel tempPanel = new JPanel();
-        tempPanel.setLayout(new GridLayout(1, 2));
-        
+        GridLayout tempLayout = new GridLayout(1, 2);
+        tempLayout.setHgap(25);
+        tempPanel.setLayout(tempLayout);
+
         tempPanel.add(createDrawingPanel());
 
         buttonScreens = new JPanel();
@@ -49,7 +51,7 @@ public class MainMenuPanel extends JPanel {
         subTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel drawingLabel = new JLabel();
-        drawingLabel.setIcon(new ImageIcon("res/images/hangman-title.png"));
+        drawingLabel.setIcon(new ImageIcon("res/images/hangman-011.png"));
         drawingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         box.add(titleLabel);
