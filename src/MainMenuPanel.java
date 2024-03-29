@@ -145,4 +145,8 @@ public class MainMenuPanel extends JPanel {
                 break;
         }
     }
+
+    public void correctScreenDisplay() {
+        cLayout.show(buttonScreens, "MAIN_BUTTONS");
+    }
 }

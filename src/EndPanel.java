@@ -8,6 +8,7 @@ public class EndPanel extends JPanel {
     private JLabel statusLabel, pointsLabel, wordLabel;
 
     private MainGUI myMain;
+    private ChangeToAction againAction;
 
     public EndPanel(MainGUI mainPass) {
         myMain = mainPass;
@@ -49,7 +50,8 @@ public class EndPanel extends JPanel {
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
-        JButton againButton = new JButton(new ChangeToAction("Play Again", GamePanel.NAME, myMain));
+        againAction = new ChangeToAction("Play Again", GamePanel.NAME, myMain);
+        JButton againButton = new JButton(againAction);
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> quitButtonClicked());
@@ -79,7 +81,8 @@ public class EndPanel extends JPanel {
         boolean isGameWon = Boolean.parseBoolean(gameInformation[0]);
         String gameWord = gameInformation[1];
         String pointsValue = gameInformation[2];
-        //something withe the game difficulty here!
+        String gameDifficulty = gameInformation[3];
+        againAction.setDifficulty(gameDifficulty);
         
         if (isGameWon) {
             statusLabel.setText("You won!");

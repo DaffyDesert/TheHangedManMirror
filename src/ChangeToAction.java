@@ -21,8 +21,14 @@ class ChangeToAction extends AbstractAction {
         this.difficulty = GameDifficulty.NONE;
     }
 
-    public void setDifficulty(GameDifficulty difficulty) {
-        this.difficulty = difficulty;
+    public void setDifficulty(String difficulty) {
+        if (difficulty.equals("EASY")) {
+            this.difficulty = GameDifficulty.EASY;
+        } else if (difficulty.equals("MEDIUM")) {
+            this.difficulty = GameDifficulty.MEDIUM;
+        } else if (difficulty.equals("HARD")) {
+            this.difficulty = GameDifficulty.HARD;
+        }
     }
 
     @Override

@@ -248,4 +248,8 @@ public class GamePanel extends JPanel {
     public String getNumPoints() {
     	return "" + newGame.getGamePoints();
     }
+
+    public String getDifficulty() {
+        return newGame.getGameDifficulty().name();
+    }
 }

@@ -107,6 +107,11 @@ public class MainGUI extends JFrame {
         //Changes the current screen depending on card
         cLayout.show(screens, key);
 
+        //If back to the main screen, it should show the true front menu
+        if (key.equals(MainMenuPanel.NAME)) {
+            mainPanel.correctScreenDisplay();
+        }
+
         //If the game is over and we are on the end panel
         //Save the game stats, update all screens, and send game 
         //stats to end screen
@@ -133,7 +138,7 @@ public class MainGUI extends JFrame {
      * the round of the game.
      */
     private String[] getGameStats() {
-        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), gamePanel.getNumPoints(), "game difficulty"};
+        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), gamePanel.getNumPoints(), gamePanel.getDifficulty()};
         return gameStats;
     }
 
