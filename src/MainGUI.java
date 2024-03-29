@@ -150,7 +150,7 @@ public class MainGUI extends JFrame {
     private void showEndPanel() {
         cLayout.show(screens, END_PANEL);
 
-        endPanel.receiveGameStats(gamePanel.isGameWon(), gamePanel.getTargetWord());
+        endPanel.receiveGameStats(gamePanel.isGameWon(), gamePanel.getTargetWord(), gamePanel.getNumPoints());
 
         while (!endPanel.isAgainButtonClicked()) {
             try {

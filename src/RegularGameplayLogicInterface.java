@@ -17,4 +17,6 @@ public interface RegularGameplayLogicInterface {
 	public int getNumIncorrectGuessesMade();
 	public String getTargetWord();
 	public int getMaxGuesses();
+	public void calculateGamePoints();
+	public int getGamePoints();
 }

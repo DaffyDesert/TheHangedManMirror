@@ -5,7 +5,7 @@ public class EndPanel extends JPanel {
 
     private boolean isAgainButtonClicked = false;
 
-    private JLabel statusLabel, wordLabel;
+    private JLabel statusLabel, pointsLabel, wordLabel;
 
     public EndPanel() {
         setLayout(new BorderLayout());
@@ -21,14 +21,19 @@ public class EndPanel extends JPanel {
      * Creates the JPanel containing the game results.
      */
     private JPanel createStatusPanel() {
-        JPanel statusPanel = new JPanel(new GridLayout(2, 1));
+        JPanel statusPanel = new JPanel(new GridLayout(3, 1));
 
         statusLabel = new JLabel();
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        pointsLabel = new JLabel();
+        pointsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        
         wordLabel = new JLabel();
         wordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         statusPanel.add(statusLabel);
+        statusPanel.add(pointsLabel);
         statusPanel.add(wordLabel);
 
         return statusPanel;
@@ -73,13 +78,15 @@ public class EndPanel extends JPanel {
      * Uses these parameters to customize what
      * is displayed to the user.
      */
-    public void receiveGameStats(boolean isGameWon, String targetWord) {
+    public void receiveGameStats(boolean isGameWon, String targetWord, int numGamePoints) {
         isAgainButtonClicked = false;
         if (isGameWon) {
             statusLabel.setText("You won!");
         } else {
             statusLabel.setText("You lost.");
         }
+        
+        pointsLabel.setText("Total Points: " + numGamePoints);
         wordLabel.setText("The word was: " + targetWord);
     }
 
