@@ -33,8 +33,6 @@ public class GamePanel extends JPanel {
 
         add(leftPanel);
         add(rightPanel);
-
-        runGameRound();
     }
 
     /*
@@ -119,10 +117,14 @@ public class GamePanel extends JPanel {
      * Calls updateGameGraphics() to ensure screen
      * shows the game round specific graphics.
      */
-    public void runGameRound() {
+    public void runGameRound(GameDifficulty difficulty) {
         newGame = new RegularGameplayLogic();
-        newGame.startGame(GameDifficulty.ALL); //TEMP: PLEASE CHANGE
+        newGame.startGame(difficulty); //TEMP: PLEASE CHANGE
 
+        System.out.println("Word is: " + newGame.getTargetWord()); //TEMP FIX ME
+        System.out.println("Game difficulty is: " + newGame.getGameDifficulty());
+
+        errorLabel.setText("");
         updateGameGraphics();
     }
 

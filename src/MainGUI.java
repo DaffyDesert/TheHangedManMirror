@@ -112,9 +112,19 @@ public class MainGUI extends JFrame {
         //stats to end screen
         if (key.equals(EndPanel.NAME) && gamePanel.isGameOver()) {
             String[] gameInformationArray = getGameStats();
-            updateScreens(EndPanel.NAME);
+            //updateScreens(EndPanel.NAME); NOT NEEDED
             endPanel.parseGameStats(gameInformationArray);
         }
+    }
+
+    /**
+     * Method used to switch between all of the cards/screens
+     * Function overload as it passes in the game difficulty
+     */
+    public void showCard(String key, GameDifficulty difficulty) {
+        cLayout.show(screens, key);
+
+        gamePanel.runGameRound(difficulty);
     }
 
     /**
@@ -123,7 +133,11 @@ public class MainGUI extends JFrame {
      * the round of the game.
      */
     private String[] getGameStats() {
-        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord()};
+        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), "5 points", "game difficulty here"};
         return gameStats;
     }
+
+    /**
+     * Set current difficulty status
+     */
 }

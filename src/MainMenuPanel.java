@@ -99,10 +99,10 @@ public class MainMenuPanel extends JPanel {
         tempLayout.setVgap(60);
         tempPanel.setLayout(tempLayout);
 
-        easyButton =  new JButton(new ChangeToAction("Easy Mode", GamePanel.NAME, myMain));
-        mediumButton = new JButton(new ChangeToAction("Medium Mode", GamePanel.NAME, myMain));
-        hardButton = new JButton(new ChangeToAction("Hard Mode", GamePanel.NAME, myMain));
-        extremeButton = new JButton(new ChangeToAction("Extreme Mode", GamePanel.NAME, myMain));
+        easyButton =  new JButton(new ChangeToAction("Easy Mode", GamePanel.NAME, myMain, GameDifficulty.EASY));
+        mediumButton = new JButton(new ChangeToAction("Medium Mode", GamePanel.NAME, myMain, GameDifficulty.MEDIUM));
+        hardButton = new JButton(new ChangeToAction("Hard Mode", GamePanel.NAME, myMain, GameDifficulty.HARD));
+        extremeButton = new JButton(new ChangeToAction("Extreme Mode", GamePanel.NAME, myMain, GameDifficulty.ALL));
         arcadeButton = new JButton("Arcade Mode");
         backButton = new JButton("Back to Main Menu");
 

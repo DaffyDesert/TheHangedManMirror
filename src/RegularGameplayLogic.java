@@ -138,4 +138,8 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	public int getMaxGuesses() {
 		return guessHandler.getMaxGuesses();
 	}
+
+	public GameDifficulty getGameDifficulty() {
+		return wordGen.getCurrentDifficulty();
+	}
 }

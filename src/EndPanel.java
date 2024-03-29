@@ -44,7 +44,6 @@ public class EndPanel extends JPanel {
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
-        
         JButton againButton = new JButton(new ChangeToAction("Play Again", GamePanel.NAME, myMain));
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
@@ -53,7 +52,6 @@ public class EndPanel extends JPanel {
         statusPanel.add(againButton);
         statusPanel.add(menuButton);
         statusPanel.add(quitButton);
-        
 
         return statusPanel;
     }
@@ -75,6 +73,8 @@ public class EndPanel extends JPanel {
     public void parseGameStats(String[] gameInformation) {
         boolean isGameWon = Boolean.parseBoolean(gameInformation[0]);
         String gameWord = gameInformation[1];
+        String pointsValue = gameInformation[2];
+        //something withe the game difficulty here!
         
         if (isGameWon) {
             statusLabel.setText("You won!");
@@ -82,5 +82,7 @@ public class EndPanel extends JPanel {
             statusLabel.setText("You lost.");
         }
         wordLabel.setText("The word was: " + gameWord);
+
+        //reassign the play again button
     }
 }
