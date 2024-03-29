@@ -164,17 +164,17 @@ class GuessHandlerTester {
 	void testIsCorrectLetterGuessEffects() {
 		guessHandler.isCorrectLetterGuess("a");
 		
-		assertEquals(0, guessHandler.numIncorrectGuessesMade());
+		assertEquals(0, guessHandler.getNumIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedLetterBefore("a"), true);
 	}
 	
 	@Test
 	void testIsNotCorrectLetterGuessEffects() {
-		int numGuesses = guessHandler.numIncorrectGuessesMade();
+		int numGuesses = guessHandler.getNumIncorrectGuessesMade();
 		
 		guessHandler.isCorrectLetterGuess("z");
 		
-		assertEquals(numGuesses + 1, guessHandler.numIncorrectGuessesMade());
+		assertEquals(numGuesses + 1, guessHandler.getNumIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedLetterBefore("z"), true);
 	}
 	
@@ -182,17 +182,17 @@ class GuessHandlerTester {
 	void testIsCorrectWordGuessEffects() {	
 		guessHandler.isCorrectWordGuess("The Man");
 		
-		assertEquals(0, guessHandler.numIncorrectGuessesMade());
+		assertEquals(0, guessHandler.getNumIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedWordBefore("The Man"), true);
 	}
 	
 	@Test
 	void testIsNotCorrectWordGuessEffects() {
-		int numGuesses = guessHandler.numIncorrectGuessesMade();
+		int numGuesses = guessHandler.getNumIncorrectGuessesMade();
 		
 		guessHandler.isCorrectWordGuess("Not The Man");
 		
-		assertEquals(numGuesses + 1, guessHandler.numIncorrectGuessesMade());
+		assertEquals(numGuesses + 1, guessHandler.getNumIncorrectGuessesMade());
 		assertEquals(guessHandler.hasGuessedWordBefore("Not The Man"), true);
 	}
 	
