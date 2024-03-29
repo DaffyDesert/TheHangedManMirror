@@ -119,10 +119,7 @@ public class GamePanel extends JPanel {
      */
     public void runGameRound(GameDifficulty difficulty) {
         newGame = new RegularGameplayLogic();
-        newGame.startGame(difficulty); //TEMP: PLEASE CHANGE
-
-        System.out.println("Word is: " + newGame.getTargetWord()); //TEMP FIX ME
-        System.out.println("Game difficulty is: " + newGame.getGameDifficulty());
+        newGame.startGame(difficulty);
 
         errorLabel.setText("");
         updateGameGraphics();

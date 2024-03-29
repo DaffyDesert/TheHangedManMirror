@@ -144,8 +144,4 @@ public class MainGUI extends JFrame {
         String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), gamePanel.getNumPoints(), gamePanel.getDifficulty()};
         return gameStats;
     }
-
-    /**
-     * Set current difficulty status
-     */
 }
