@@ -121,8 +121,8 @@ public class GamePanel extends JPanel {
      */
     public void runGameRound() {
         newGame = new RegularGameplayLogic();
-        newGame.startGame();
-        System.out.println(newGame.getTargetWord());
+        newGame.startGame(GameDifficulty.ALL); //TEMP: PLEASE CHANGE
+
         updateGameGraphics();
     }
 
