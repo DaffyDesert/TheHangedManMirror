@@ -19,4 +19,5 @@ public interface RegularGameplayLogicInterface {
 	public int getMaxGuesses();
 	public void calculateGamePoints();
 	public int getGamePoints();
+	public GameDifficulty getGameDifficulty();
 }
