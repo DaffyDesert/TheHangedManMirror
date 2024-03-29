@@ -40,7 +40,8 @@ public class MainGUI extends JFrame {
         setPreferredSize(new Dimension(1000, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        createFont();   
+        //createFont(); 
+        UIManagerUtil.setUIFont("res/Alice_in_Wonderland_3.ttf", 40f);
 
         createCardLayout();
         pack();
