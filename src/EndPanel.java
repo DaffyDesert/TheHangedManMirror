@@ -3,11 +3,16 @@ import javax.swing.*;
 
 public class EndPanel extends JPanel {
 
-    private boolean isAgainButtonClicked = false;
+    public static final String NAME = "END";
 
     private JLabel statusLabel, pointsLabel, wordLabel;
 
-    public EndPanel() {
+    private MainGUI myMain;
+    private ChangeToAction againAction;
+
+    public EndPanel(MainGUI mainPass) {
+        myMain = mainPass;
+        
         setLayout(new BorderLayout());
 
         Box box = Box.createVerticalBox();
@@ -45,13 +50,15 @@ public class EndPanel extends JPanel {
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
+        againAction = new ChangeToAction("Play Again", GamePanel.NAME, myMain);
+        JButton againButton = new JButton(againAction);
+        JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> quitButtonClicked());
-        JButton againButton = new JButton("Play Again?");
-        againButton.addActionListener(e -> againButtonClicked());
-
-        statusPanel.add(quitButton);
+        
         statusPanel.add(againButton);
+        statusPanel.add(menuButton);
+        statusPanel.add(quitButton);
 
         return statusPanel;
     }
@@ -65,32 +72,24 @@ public class EndPanel extends JPanel {
     }
 
     /*
-     * Called when the letterButton is pressed.
-     * Sets the isAgainButtonClicked to true
+     * Takes in the game stats as an array,
+     * assigning temp variables with these values and
+     * using them to create the game stats display
+     * information.
      */
-    private void againButtonClicked() {
-        isAgainButtonClicked = true;
-    }
-
-    /*
-     * Receives the game stats from the
-     * player's game through parameters.
-     * Uses these parameters to customize what
-     * is displayed to the user.
-     */
-    public void receiveGameStats(boolean isGameWon, String targetWord, int numGamePoints) {
-        isAgainButtonClicked = false;
+    public void parseGameStats(String[] gameInformation) {
+        boolean isGameWon = Boolean.parseBoolean(gameInformation[0]);
+        String gameWord = gameInformation[1];
+        String pointsValue = gameInformation[2];
+        String gameDifficulty = gameInformation[3];
+        againAction.setDifficulty(gameDifficulty);
+        
         if (isGameWon) {
             statusLabel.setText("You won!");
         } else {
             statusLabel.setText("You lost.");
         }
-        
-        pointsLabel.setText("Total Points: " + numGamePoints);
-        wordLabel.setText("The word was: " + targetWord);
-    }
-
-    public boolean isAgainButtonClicked() {
-        return isAgainButtonClicked;
+        pointsLabel.setText("Total Points: " + pointsValue);
+        wordLabel.setText("The word was: " + gameWord);
     }
 }

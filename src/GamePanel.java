@@ -4,13 +4,18 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
+    public static final String NAME = "GAME";
+
     private JLabel hiddenWord, wrongLetters, wrongWords, drawingLabel, errorLabel;
 
     private JTextField guessField;
 
     private RegularGameplayLogic newGame;
 
-    public GamePanel() {
+    private MainGUI myMain;
+
+    public GamePanel(MainGUI mainPass) {
+        myMain = mainPass;
         setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel();
@@ -112,10 +117,11 @@ public class GamePanel extends JPanel {
      * Calls updateGameGraphics() to ensure screen
      * shows the game round specific graphics.
      */
-    public void runGameRound() {
+    public void runGameRound(GameDifficulty difficulty) {
         newGame = new RegularGameplayLogic();
-        newGame.startGame(GameDifficulty.ALL); //TEMPORARY: PLEASE CHANGE. -Wil
+        newGame.startGame(difficulty);
 
+        errorLabel.setText("");
         updateGameGraphics();
     }
 
@@ -180,6 +186,7 @@ public class GamePanel extends JPanel {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a letter guess, no penalty.");
         }
         updateGameGraphics();
+        checkGameOver();
     }
 
     /*
@@ -207,14 +214,20 @@ public class GamePanel extends JPanel {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a word guess, no penalty.");
         }
         updateGameGraphics();
+        checkGameOver();
     }
 
-    public void cleanUp() {
-        hiddenWord.setText("");
-        wrongLetters.setText("");
-        wrongWords.setText("");
-        drawingLabel.setIcon(null);
-        errorLabel.setText("");
+    /**
+     * Calls update game graphics to reflect
+     * the most recent play by the player.
+     * It then checks to see if the game is over
+     * before sending the player to the end screen.
+     */
+    public void checkGameOver() {
+        if(newGame.isGameOver()) {
+            myMain.showCard(EndPanel.NAME);
+        }
+        
     }
 
     public boolean isGameOver() {
@@ -229,7 +242,11 @@ public class GamePanel extends JPanel {
         return newGame.getTargetWord();
     }
     
-    public int getNumPoints() {
-    	return newGame.getGamePoints();
+    public String getNumPoints() {
+    	return "" + newGame.getGamePoints();
+    }
+
+    public String getDifficulty() {
+        return newGame.getGameDifficulty().name();
     }
 }

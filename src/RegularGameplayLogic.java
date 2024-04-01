@@ -158,4 +158,8 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 	public int getGamePoints() {
 		return pointsHandler.getTotalPoints();
 	}
+
+	public GameDifficulty getGameDifficulty() {
+		return wordGen.getCurrentDifficulty();
+	}
 }

@@ -3,8 +3,6 @@ import javax.swing.*;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class MainGUI extends JFrame {
 
@@ -13,27 +11,9 @@ public class MainGUI extends JFrame {
 
     private GamePanel gamePanel;
     private EndPanel endPanel;
-
-    private enum PanelName {
-        GAME_SCREEN, END_SCREEN
-    }
-
-    private PanelName switchPanel = PanelName.GAME_SCREEN;
-
-    public final String GAME_PANEL = "Game Panel";
-    public final String END_PANEL = "End Panel";
+    private MainMenuPanel mainPanel;
 
     public Font tarotFont;
-
-    /**
-     * Runs the game
-     */
-    public static void main(String[] args) {
-        MainGUI temp = new MainGUI();
-
-        temp.getRootPane().putClientProperty("JRootPane.titleBarBackground", Color.black);
-        temp.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
-    }
 
     public MainGUI() {
         setTitle("The Hanged Man: A Hangman Experience");
@@ -44,11 +24,12 @@ public class MainGUI extends JFrame {
         UIManagerUtil.setUIFont("res/Alice_in_Wonderland_3.ttf", 40f);
 
         createCardLayout();
+        
+        changeTheme("SunriseTheme");
+        updateScreens(MainMenuPanel.NAME);
+
         pack();
         setVisible(true);
-
-        changeTheme("SunriseTheme");
-        updateScreens();
     }
 
     /**
@@ -57,19 +38,21 @@ public class MainGUI extends JFrame {
      * and reads them. This reading allows for 
      * theme changes to apply to all screens.
      */
-    private void updateScreens() {
+    private void updateScreens(String currentPanel) {
         // Clear out the old one panels from the card
         screens.removeAll();
 
         // Creating new versions of the panels
-        gamePanel = new GamePanel();
-        endPanel = new EndPanel();
+        mainPanel = new MainMenuPanel(this);
+        gamePanel = new GamePanel(this);
+        endPanel = new EndPanel(this);
 
         // Adding them to the screens JPanel
-        screens.add(gamePanel, GAME_PANEL);
-        screens.add(endPanel, END_PANEL);
+        screens.add(mainPanel, MainMenuPanel.NAME);
+        screens.add(gamePanel, GamePanel.NAME);
+        screens.add(endPanel, EndPanel.NAME);
 
-        changePanel(switchPanel);
+        showCard(currentPanel);
     }
 
     /**
@@ -84,84 +67,6 @@ public class MainGUI extends JFrame {
         cLayout = new CardLayout();
         screens.setLayout(cLayout);
         add(screens);
-    }
-
-    /*
-     * Used to change between panels,
-     * calls the corresponding show
-     * function that sets the JPanel
-     * as visible with CardLayout.
-     */
-    private void changePanel(PanelName currentPanel) {
-        switch (currentPanel) {
-            case GAME_SCREEN:
-                showGamePanel();
-                break;
-            case END_SCREEN:
-                showEndPanel();
-                break;
-        }
-    }
-
-    /*
-     * Called when the GamePanel needs to be shown.
-     *      (called from within changePanel();)
-     * Displays the game panel.
-     * Starts a game round.
-     * 
-     * Also handles sending to the next screen,
-     * awaits for player to win or lose
-     * before sending back to changePanel();
-     */
-    private void showGamePanel() {
-        cLayout.show(screens, GAME_PANEL);
-        gamePanel.runGameRound();
-        while (!gamePanel.isGameOver()) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        gamePanel.cleanUp();
-        
-        switchPanel = PanelName.END_SCREEN;
-        changePanel(switchPanel);
-
-    }
-
-    /*
-     * Called when the EndPanel needs to be shown.
-     *      (called from within changePanel();)
-     * Displays the end panel.
-     * Sends over the stats based on the most recent
-     * version of gamePannel. 
-     * 
-     * Also handles sending to the next screen,
-     * awaits button within endPanel to be clicked
-     * before sending back to changePanel();
-     */
-    private void showEndPanel() {
-        cLayout.show(screens, END_PANEL);
-
-        endPanel.receiveGameStats(gamePanel.isGameWon(), gamePanel.getTargetWord(), gamePanel.getNumPoints());
-
-        while (!endPanel.isAgainButtonClicked()) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
-        switchPanel = PanelName.GAME_SCREEN;
-        changePanel(switchPanel);
     }
 
     private void changeTheme(String themeName) {
@@ -192,20 +97,51 @@ public class MainGUI extends JFrame {
             }
         }
 
-        updateScreens();
+        updateScreens(MainMenuPanel.NAME); //FIXME, replace with custom screen
     }
 
-    private void createFont() {
-        try {
-            // create the font to use. Specify the size!
-            tarotFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Tarot-Font.ttf")).deriveFont(13);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            // register the font
-            ge.registerFont(tarotFont);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (FontFormatException e) {
-            e.printStackTrace();
+    /**
+     * Method used to switch between all of the cards/screens
+     * Also has a tester for if it is the end screen and
+     * the game is over in order to log and send over the 
+     * game statistics.
+     */
+    public void showCard(String key) {
+        //Changes the current screen depending on card
+        cLayout.show(screens, key);
+
+        //If back to the main screen, it should show the true front menu
+        if (key.equals(MainMenuPanel.NAME)) {
+            mainPanel.correctScreenDisplay();
         }
+
+        //If the game is over and we are on the end panel
+        //Save the game stats, update all screens, and send game 
+        //stats to end screen
+        if (key.equals(EndPanel.NAME) && gamePanel.isGameOver()) {
+            String[] gameInformationArray = getGameStats();
+            //updateScreens(EndPanel.NAME); NOT NEEDED
+            endPanel.parseGameStats(gameInformationArray);
+        }
+    }
+
+    /**
+     * Method used to switch between all of the cards/screens
+     * Function overload as it passes in the game difficulty
+     */
+    public void showCard(String key, GameDifficulty difficulty) {
+        cLayout.show(screens, key);
+
+        gamePanel.runGameRound(difficulty);
+    }
+
+    /**
+     * Creates and returns an array using the game
+     * stats of isGameWon and the target word for
+     * the round of the game.
+     */
+    private String[] getGameStats() {
+        String[] gameStats = {gamePanel.isGameWon() ? "true" : "false", gamePanel.getTargetWord(), gamePanel.getNumPoints(), gamePanel.getDifficulty()};
+        return gameStats;
     }
 }
