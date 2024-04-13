@@ -1,6 +1,7 @@
 import javax.swing.*;
-
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MainMenuPanel extends JPanel {
 
@@ -8,6 +9,7 @@ public class MainMenuPanel extends JPanel {
 
     private CardLayout cLayout;
     private JPanel buttonScreens;
+    private JPanel howToPlayPanel;
 
     private JButton easyButton, mediumButton, hardButton, extremeButton, arcadeButton, backButton, playButton, howToButton, customButton, quitButton;
 
@@ -34,6 +36,10 @@ public class MainMenuPanel extends JPanel {
         buttonScreens.add(createButtonPanel(), "MAIN_BUTTONS");
         buttonScreens.add(createGameModeButtons(), "MODE_BUTTONS");
 
+        // Create the How To Play panel and add it to the buttonScreens
+        howToPlayPanel = createHowToPlayPanel();
+        buttonScreens.add(howToPlayPanel, "HOWTO_SCREEN");
+
         add(tempPanel);
     }
 
@@ -46,7 +52,7 @@ public class MainMenuPanel extends JPanel {
         Box box = Box.createVerticalBox();
 
         JLabel titleLabel = new JLabel("The Hanged Man:");
-        JLabel subTitleLabel = new JLabel("A Hangman Expreience");
+        JLabel subTitleLabel = new JLabel("A Hangman Experience");
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         subTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -123,13 +129,68 @@ public class MainMenuPanel extends JPanel {
         return tempPanel;
     }
 
+    /**
+     * Creates a JPanel containing instructions on how to play the game
+     */
+    private JPanel createHowToPlayPanel() {
+        JPanel tempPanel = new JPanel();
+        
+        JTextArea textArea = new JTextArea("Game Objective:\r\n" + //
+                        "Guess the word correctly before the hangman is fully drawn.\r\n\n" + //
+                        "How To Play:\r\n" + //
+                        "Guess the word correctly before the hangman is fully drawn.\r\n" + //
+                        "Pick your choice of difficulty to begin playing.\r\n" + //
+                        "A word is randomly selected, and your goal is to guess it letter by letter.\r\n" + //
+                        "Guess the entire word or letters one at a time. If the guess is correct, it will be revealed. If not, a part of the hangman is drawn.\r\n" + //
+                        "Keep guessing until you either guess the word correctly or the hangman is fully drawn.\r\n\n" + //
+                        "Features:\r\n" + //
+                        "Difficulty Levels: Choose from a range of difficulty levels, from novice to expert, to suit your skill level.\r\n" + //
+                        "   -The Fool: less than 6 letters per word\r\n" + //
+                        "   -Strength: 6 - 8 letters per word with at least one\r\n" + //
+                        "    letter repeated\r\n" + //
+                        "   -Death: 7+ letters per word with no more than 1\r\n" + //
+                        "    letter repeated more than once\r\n" + //
+                        "   -The World: Every word in the dictionary is possible.\r\n" + //
+                        "Themes: Immerse yourself in various themes that bring a fresh aesthetic to the classic gameplay.\r\n" + //
+                        "Sound Effects: Let the sound effects heighten the tension as you race against the hangman's creation.\r\n" + //
+                        "");
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setEditable(false);
+    // Load custom font
+        Font customFont = loadCustomFont("res/Alice_in_Wonderland_3.ttf", 25f);
+        if (customFont != null) {
+            textArea.setFont(customFont);
+        }
+    
+        JScrollPane scrollPane = new JScrollPane(textArea);
+    
+        tempPanel.setLayout(new BorderLayout());
+    
+        JPanel buttonPanel = new JPanel();
+        JButton backButton = new JButton("Back to Main Menu");
+        JButton quitButton = new JButton("Quit Game");
+    
+        backButton.addActionListener(e -> buttonClicked(ButtonValues.BACK));
+        quitButton.addActionListener(e -> buttonClicked(ButtonValues.QUIT));
+    
+        buttonPanel.add(backButton);
+        buttonPanel.add(quitButton);
+    
+        //tempPanel.add(new JLabel("How to Play the Game"), BorderLayout.NORTH);
+        tempPanel.add(scrollPane, BorderLayout.CENTER);
+        tempPanel.add(buttonPanel, BorderLayout.SOUTH);
+    
+        return tempPanel;
+    }
+    
     private void buttonClicked(ButtonValues buttonValue) {
         switch (buttonValue) {
             case PLAY:
                 cLayout.show(buttonScreens, "MODE_BUTTONS");
                 break;
             case HOWTO:
-                System.out.println("Pressed how to:: Not Yet Implemented");
+                cLayout.show(buttonScreens, "HOWTO_SCREEN");
                 break;
             case CUSTOM:
                 System.out.println("Pressed custom:: Not Yet Implemented");
@@ -140,7 +201,7 @@ public class MainMenuPanel extends JPanel {
             case ARCADE:
                 System.out.println("Pressed arcade:: Not Yet Implemented");
                 break;
-            case BACK: 
+            case BACK:
                 cLayout.show(buttonScreens, "MAIN_BUTTONS");
                 break;
         }
@@ -149,4 +210,17 @@ public class MainMenuPanel extends JPanel {
     public void correctScreenDisplay() {
         cLayout.show(buttonScreens, "MAIN_BUTTONS");
     }
+
+    private Font loadCustomFont(String fontPath, float fontSize) {
+    try {
+        Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)).deriveFont(fontSize);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        ge.registerFont(customFont);
+        return customFont;
+    } catch (IOException | FontFormatException e) {
+        e.printStackTrace();
+        // Handle font loading errors here
+        return null;
+    }
+}
 }
