@@ -105,7 +105,7 @@ public class MainMenuPanel extends JPanel {
         mediumButton = new JButton(new ChangeToAction("Medium Mode", GamePanel.NAME, myMain, GameDifficulty.MEDIUM));
         hardButton = new JButton(new ChangeToAction("Hard Mode", GamePanel.NAME, myMain, GameDifficulty.HARD));
         extremeButton = new JButton(new ChangeToAction("Extreme Mode", GamePanel.NAME, myMain, GameDifficulty.ALL));
-        arcadeButton = new JButton("Arcade Mode");
+        arcadeButton = new JButton(new ChangeToAction("Arcade Mode", GamePanel.NAME, myMain, GameDifficulty.ARCADE));
         backButton = new JButton("Back to Main Menu");
 
         arcadeButton.addActionListener(e -> buttonClicked(ButtonValues.ARCADE));
@@ -136,9 +136,6 @@ public class MainMenuPanel extends JPanel {
                 break;
             case QUIT:
                 System.exit(0);
-                break;
-            case ARCADE:
-                System.out.println("Pressed arcade:: Not Yet Implemented");
                 break;
             case BACK: 
                 cLayout.show(buttonScreens, "MAIN_BUTTONS");

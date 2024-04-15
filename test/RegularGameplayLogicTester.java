@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 class RegularGameplayLogicTester {
 
-	RegularGameplayLogicInterface gameplayLogic;
+	GameplayLogicInterface gameplayLogic;
 	GameDifficulty difficulty = GameDifficulty.ALL;
 	
 	@BeforeEach

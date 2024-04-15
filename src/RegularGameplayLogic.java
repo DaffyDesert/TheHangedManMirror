@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class RegularGameplayLogic implements RegularGameplayLogicInterface {
+public class RegularGameplayLogic implements GameplayLogicInterface {
 	private String targetWord;
 	private WordGenerator wordGen;
 	private GuessHandlerInterface guessHandler;
@@ -21,6 +21,8 @@ public class RegularGameplayLogic implements RegularGameplayLogicInterface {
 		if(difficulty.equals(GameDifficulty.ALL)) {
 			difficulty = wordGen.getWordDifficulty(targetWord);
 		}
+		
+		System.out.println(targetWord);
 		
 		pointsHandler = new PointsHandler(difficulty);	
 	}
