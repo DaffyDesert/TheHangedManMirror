@@ -82,7 +82,6 @@ public class ArcadePanel extends JPanel{
         String gameWord = gameInformation[1];
         String pointsValue = gameInformation[2];
         String gameDifficulty = gameInformation[3];
-        againAction.setDifficulty(gameDifficulty);
         
         statusLabel.setText("Level Successfully Completed!");  
        

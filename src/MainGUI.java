@@ -118,14 +118,17 @@ public class MainGUI extends JFrame {
         //If back to the main screen, it should show the true front menu
         if (key.equals(MainMenuPanel.NAME)) {
             mainPanel.correctScreenDisplay();
+            gameplayLogic = null;
         }
         
         //If the game is over and we are on the end panel
         //Save the game stats, update all screens, and send game 
         //stats to end screen
         if (key.equals(EndPanel.NAME) && gamePanel.isGameOver()) {
-            String[] gameInformationArray = getGameStats();
+            String[] gameInformationArray = getGameStats();            
             endPanel.parseGameStats(gameInformationArray);
+            
+            gameplayLogic = null;
         }
         
         //If the game is over and we are on the arcade panel

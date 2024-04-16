@@ -22,8 +22,6 @@ public class RegularGameplayLogic implements GameplayLogicInterface {
 			difficulty = wordGen.getWordDifficulty(targetWord);
 		}
 		
-		System.out.println(targetWord);
-		
 		pointsHandler = new PointsHandler(difficulty);	
 	}
 	
