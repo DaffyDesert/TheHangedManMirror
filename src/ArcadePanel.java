@@ -49,7 +49,7 @@ public class ArcadePanel extends JPanel{
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
-        againAction = new ChangeToAction("Continue", GamePanel.NAME, myMain, GameDifficulty.ARCADE);
+        againAction = new ChangeToAction("Continue to Next Level", GamePanel.NAME, myMain, GameDifficulty.ARCADE);
         JButton againButton = new JButton(againAction);
         
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
@@ -83,9 +83,9 @@ public class ArcadePanel extends JPanel{
         String pointsValue = gameInformation[2];
         String gameDifficulty = gameInformation[3];
         
-        statusLabel.setText("Level Successfully Completed!");  
+        statusLabel.setText("Arcade Mode - Level Successfully Completed!");  
        
-        pointsLabel.setText("Total Points: " + pointsValue);
+        pointsLabel.setText("Total Accumulated Points: " + pointsValue);
         wordLabel.setText("The word was: " + gameWord);
     }
 }
