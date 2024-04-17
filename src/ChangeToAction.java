@@ -30,6 +30,8 @@ class ChangeToAction extends AbstractAction {
             this.difficulty = GameDifficulty.HARD;
         } else if (difficulty.equals("ALL")) {
             this.difficulty = GameDifficulty.ALL;
+        } else if (difficulty.equals("ARCADE")) {
+            this.difficulty = GameDifficulty.ARCADE;
         } else {
             this.difficulty = GameDifficulty.NONE;
         }

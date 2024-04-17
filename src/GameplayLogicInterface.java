@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public interface RegularGameplayLogicInterface {
+public interface GameplayLogicInterface {
 	public void startGame(GameDifficulty difficulty);
 	public boolean isGameOver();
 	public boolean isGameWon();
