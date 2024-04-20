@@ -13,6 +13,7 @@ public class MainGUI extends JFrame {
     private EndPanel endPanel;
     private ArcadePanel arcadePanel;
     private MainMenuPanel mainPanel;
+    private HowToPanel howToPanel;
 
     public Font tarotFont;
     
@@ -23,7 +24,6 @@ public class MainGUI extends JFrame {
         setPreferredSize(new Dimension(1000, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //createFont(); 
         UIManagerUtil.setUIFont("res/Alice_in_Wonderland_3.ttf", 40f);
 
         createCardLayout();
@@ -49,12 +49,14 @@ public class MainGUI extends JFrame {
         mainPanel = new MainMenuPanel(this);
         gamePanel = new GamePanel(this);
         endPanel = new EndPanel(this);
+        howToPanel = new HowToPanel(this);
         arcadePanel = new ArcadePanel(this);
 
         // Adding them to the screens JPanel
         screens.add(mainPanel, MainMenuPanel.NAME);
         screens.add(gamePanel, GamePanel.NAME);
         screens.add(endPanel, EndPanel.NAME);
+        screens.add(howToPanel, HowToPanel.NAME);
         screens.add(arcadePanel, ArcadePanel.NAME);
 
         showCard(currentPanel);
