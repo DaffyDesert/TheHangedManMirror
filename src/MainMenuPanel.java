@@ -11,7 +11,7 @@ public class MainMenuPanel extends JPanel {
     private JButton easyButton, mediumButton, hardButton, extremeButton, arcadeButton, backButton, playButton, howToButton, customButton, quitButton;
 
     private enum ButtonValues {
-        PLAY, HOWTO, CUSTOM, QUIT, ARCADE, BACK
+        PLAY, HOWTO, CUSTOM, QUIT, BACK
     }
 
     private MainGUI myMain;
@@ -73,10 +73,11 @@ public class MainMenuPanel extends JPanel {
 
         playButton = new JButton("Play The Hanged Man");
         howToButton = new JButton(new ChangeToAction("How To Play", HowToPanel.NAME, myMain));
-        customButton = new JButton("Customization Menu");
+        customButton = new JButton(new ChangeToAction("Customization Menu", CustomPanel.NAME, myMain));
         quitButton = new JButton("Quit Game");
 
         playButton.addActionListener(e -> buttonClicked(ButtonValues.PLAY));
+        howToButton.addActionListener(e -> buttonClicked(ButtonValues.HOWTO));
         customButton.addActionListener(e -> buttonClicked(ButtonValues.CUSTOM));
         quitButton.addActionListener(e -> buttonClicked(ButtonValues.QUIT));
 
@@ -106,7 +107,6 @@ public class MainMenuPanel extends JPanel {
         arcadeButton = new JButton(new ChangeToAction("Arcade Mode", GamePanel.NAME, myMain, GameDifficulty.ARCADE));
         backButton = new JButton("Back to Main Menu");
 
-        arcadeButton.addActionListener(e -> buttonClicked(ButtonValues.ARCADE));
         backButton.addActionListener(e -> buttonClicked(ButtonValues.BACK));
 
         tempPanel.add(new JLabel(""));

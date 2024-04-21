@@ -13,6 +13,7 @@ public class MainGUI extends JFrame {
     private EndPanel endPanel;
     private ArcadePanel arcadePanel;
     private MainMenuPanel mainPanel;
+    private CustomPanel customPanel;
     private HowToPanel howToPanel;
 
     public Font tarotFont;
@@ -51,6 +52,7 @@ public class MainGUI extends JFrame {
         endPanel = new EndPanel(this);
         howToPanel = new HowToPanel(this);
         arcadePanel = new ArcadePanel(this);
+        customPanel = new CustomPanel(this);
 
         // Adding them to the screens JPanel
         screens.add(mainPanel, MainMenuPanel.NAME);
@@ -58,6 +60,7 @@ public class MainGUI extends JFrame {
         screens.add(endPanel, EndPanel.NAME);
         screens.add(howToPanel, HowToPanel.NAME);
         screens.add(arcadePanel, ArcadePanel.NAME);
+        screens.add(customPanel, CustomPanel.NAME);
 
         showCard(currentPanel);
     }
@@ -76,7 +79,7 @@ public class MainGUI extends JFrame {
         add(screens);
     }
 
-    private void changeTheme(String themeName) {
+    public void changeTheme(String themeName) {
         if (themeName.compareTo("SunriseTheme") == 0) {
             try {
                 UIManager.setLookAndFeel(new SunriseTheme());
@@ -104,7 +107,7 @@ public class MainGUI extends JFrame {
             }
         }
 
-        updateScreens(MainMenuPanel.NAME); //FIXME, replace with custom screen
+        updateScreens(CustomPanel.NAME);
     }
 
     /**
