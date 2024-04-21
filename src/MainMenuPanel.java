@@ -11,7 +11,7 @@ public class MainMenuPanel extends JPanel {
     private JButton easyButton, mediumButton, hardButton, extremeButton, arcadeButton, backButton, playButton, howToButton, customButton, quitButton;
 
     private enum ButtonValues {
-        PLAY, HOWTO, CUSTOM, QUIT, BACK
+        PLAY, QUIT, BACK
     }
 
     private MainGUI myMain;
@@ -77,8 +77,6 @@ public class MainMenuPanel extends JPanel {
         quitButton = new JButton("Quit Game");
 
         playButton.addActionListener(e -> buttonClicked(ButtonValues.PLAY));
-        howToButton.addActionListener(e -> buttonClicked(ButtonValues.HOWTO));
-        customButton.addActionListener(e -> buttonClicked(ButtonValues.CUSTOM));
         quitButton.addActionListener(e -> buttonClicked(ButtonValues.QUIT));
 
         tempPanel.add(new JLabel(""));
@@ -126,17 +124,10 @@ public class MainMenuPanel extends JPanel {
             case PLAY:
                 cLayout.show(buttonScreens, "MODE_BUTTONS");
                 break;
-            case CUSTOM:
-                System.out.println("Pressed custom:: Not Yet Implemented");
-                break;
             case QUIT:
                 System.exit(0);
                 break;
-            case ARCADE:
-                System.out.println("Pressed arcade:: Not Yet Implemented");
-                break;
             case BACK: 
-
                 cLayout.show(buttonScreens, "MAIN_BUTTONS");
                 break;
         }
