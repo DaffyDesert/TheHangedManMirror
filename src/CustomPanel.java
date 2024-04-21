@@ -8,12 +8,16 @@ public class CustomPanel extends JPanel {
 
     private MainGUI myMain;
 
+    private AudioPlayerInterface AudioPlayer;
+
     private enum ButtonValues {
         SUNRISE, SUNSET, MOONRISE
     }
 
     public CustomPanel(MainGUI mainPass) {
         myMain = mainPass;
+
+        AudioPlayer = new AudioPlayer();
 
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -39,6 +43,24 @@ public class CustomPanel extends JPanel {
         sunsetButton.addActionListener(e -> buttonClicked(ButtonValues.SUNSET));
         moonriseButton.addActionListener(e -> buttonClicked(ButtonValues.MOONRISE));
 
+        sunriseButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        sunsetButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        moonriseButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
 
         buttonPanel.add(new JLabel(""));
@@ -56,12 +78,15 @@ public class CustomPanel extends JPanel {
         switch (buttonValue) {
             case SUNRISE:
                 myMain.changeTheme("SunriseTheme");
+                AudioPlayer.buttonClick();
                 break;
             case SUNSET:
                 myMain.changeTheme("SunsetTheme");
+                AudioPlayer.buttonClick();
                 break;
             case MOONRISE:
                 myMain.changeTheme("MoonriseTheme");
+                AudioPlayer.buttonClick();
                 break;
         }
     }
