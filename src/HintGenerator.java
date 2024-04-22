@@ -64,12 +64,7 @@ public class HintGenerator implements HintInterface {
 	// based on that
 	@Override
 	public void calculateDeduction() {
-		int numOccurrences = 0;
-		for (int i = 0; i < word.length(); i++) {
-			if (word.charAt(i) == hintChar) numOccurrences++;
-		}
-		
-		this.lastDeduction = numOccurrences * POINTS_PER_LETTER_GUESS;
+		this.lastDeduction = POINTS_PER_LETTER_GUESS;
 	}
 
 	// Adds the temporary last deduction value to the total deductions, returns the hint char

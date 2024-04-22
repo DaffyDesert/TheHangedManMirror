@@ -26,7 +26,7 @@ public class PointsHandler implements PointsHandlerInterface{
 	}
 	
 	@Override
-	public void calculatePoints(int numGuessesLeft, int numLettersGuessedCorrectly, boolean wasWordGuessed) {
+	public void calculatePoints(int numGuessesLeft, int numLettersGuessedCorrectly, boolean wasWordGuessed, int hintPointDeduction) {
 
 		//Standardizes Input in Case of Miscalculation, Prevents Issues with Score Calculation if were to occur.
 		if(numGuessesLeft < 0) {numGuessesLeft = 0;}
@@ -37,6 +37,11 @@ public class PointsHandler implements PointsHandlerInterface{
 		if(wasWordGuessed) {
 			currPoints += WORDGUESSEDPOINTSAMOUNT;
 		}
+		
+		if (numLettersGuessedCorrectly == (hintPointDeduction / LETTERSGUESSEDPOINTSMULTIPLIER))
+			currPoints = 0;
+		else
+			currPoints -= hintPointDeduction;
 		
 		currPoints = scaleGamePointsByDifficulty(currPoints);
 		
