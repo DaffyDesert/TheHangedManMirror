@@ -63,6 +63,14 @@ public class CustomPanel extends JPanel {
 
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
 
+        menuButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        menuButton.addActionListener(e -> backButtonClicked());
+
         buttonPanel.add(new JLabel(""));
         buttonPanel.add(titleLabel);
         buttonPanel.add(sunriseButton);
@@ -89,5 +97,9 @@ public class CustomPanel extends JPanel {
                 AudioPlayer.buttonClick();
                 break;
         }
+    }
+
+    private void backButtonClicked() {
+        AudioPlayer.buttonClick();
     }
 }
