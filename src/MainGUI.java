@@ -17,7 +17,7 @@ public class MainGUI extends JFrame {
 
     public MainGUI() {
         setTitle("The Hanged Man: A Hangman Experience");
-        setPreferredSize(new Dimension(1000, 1000)); 
+        setPreferredSize(new Dimension(1500, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //createFont(); 
