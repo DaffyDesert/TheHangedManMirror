@@ -16,7 +16,7 @@ class PointsHandlerTester {
 	void testRegularScoreCalculation() {
 		int expectedPoints = 140;
 		
-		pointsHandler.calculatePoints(5, 6, false);
+		pointsHandler.calculatePoints(5, 6, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -25,7 +25,7 @@ class PointsHandlerTester {
 	void testRegularScoreCalculationCase2() {
 		int expectedPoints = 230;
 		
-		pointsHandler.calculatePoints(9, 6, true);
+		pointsHandler.calculatePoints(9, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -34,7 +34,7 @@ class PointsHandlerTester {
 	void testGuessedWordOnFirstGuess () {
 		int expectedPoints = 160;
 		
-		pointsHandler.calculatePoints(11, 0, true);
+		pointsHandler.calculatePoints(11, 0, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -43,7 +43,7 @@ class PointsHandlerTester {
 	void testMinimumScoreCalculation() {
 		int expectedPoints = 0;
 		
-		pointsHandler.calculatePoints(0, 0, false);
+		pointsHandler.calculatePoints(0, 0, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -52,7 +52,7 @@ class PointsHandlerTester {
 	void testRegularScoreCalculationWithWordGuessed() {
 		int expectedPoints = 190;
 		
-		pointsHandler.calculatePoints(5, 6, true);
+		pointsHandler.calculatePoints(5, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -61,7 +61,7 @@ class PointsHandlerTester {
 	void testScoreCalculationWithNoGuessesLeft() {
 		int expectedPoints = 90;
 		
-		pointsHandler.calculatePoints(0, 6, false);
+		pointsHandler.calculatePoints(0, 6, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -70,7 +70,7 @@ class PointsHandlerTester {
 	void testScoreCalculationWithNoLettersGuessed() {
 		int expectedPoints = 50;
 		
-		pointsHandler.calculatePoints(5, 0, false);
+		pointsHandler.calculatePoints(5, 0, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -79,7 +79,7 @@ class PointsHandlerTester {
 	void testScoreCalculationWithNegativeGuessesLeft() {
 		int expectedPoints = 90;
 		
-		pointsHandler.calculatePoints(-10, 6, false);
+		pointsHandler.calculatePoints(-10, 6, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -88,7 +88,7 @@ class PointsHandlerTester {
 	void testScoreCalculationWithNegativeLettersGuessed() {
 		int expectedPoints = 50;
 		
-		pointsHandler.calculatePoints(5, -20, false);
+		pointsHandler.calculatePoints(5, -20, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -97,7 +97,7 @@ class PointsHandlerTester {
 	void testScoreCalculationWithAllNegativeValuesGuessed() {
 		int expectedPoints = 0;
 		
-		pointsHandler.calculatePoints(-20, -20, false);
+		pointsHandler.calculatePoints(-20, -20, false, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -107,7 +107,7 @@ class PointsHandlerTester {
 		int expectedPoints = 190;
 		pointsHandler.setGamePointsDifficulty(GameDifficulty.NONE);
 		
-		pointsHandler.calculatePoints(5, 6, true);
+		pointsHandler.calculatePoints(5, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -117,7 +117,7 @@ class PointsHandlerTester {
 		int expectedPoints = 190;
 		pointsHandler.setGamePointsDifficulty(GameDifficulty.ALL);
 		
-		pointsHandler.calculatePoints(5, 6, true);
+		pointsHandler.calculatePoints(5, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -127,7 +127,7 @@ class PointsHandlerTester {
 		int expectedPoints = 190;
 		pointsHandler.setGamePointsDifficulty(GameDifficulty.EASY);
 		
-		pointsHandler.calculatePoints(5, 6, true);
+		pointsHandler.calculatePoints(5, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -137,7 +137,7 @@ class PointsHandlerTester {
 		int expectedPoints = 285;
 		pointsHandler.setGamePointsDifficulty(GameDifficulty.MEDIUM);
 		
-		pointsHandler.calculatePoints(5, 6, true);
+		pointsHandler.calculatePoints(5, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}
@@ -147,7 +147,7 @@ class PointsHandlerTester {
 		int expectedPoints = 380;
 		pointsHandler.setGamePointsDifficulty(GameDifficulty.HARD);
 		
-		pointsHandler.calculatePoints(5, 6, true);
+		pointsHandler.calculatePoints(5, 6, true, 0);
 		
 		assertEquals(expectedPoints, pointsHandler.getTotalPoints());
 	}

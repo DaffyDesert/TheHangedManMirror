@@ -38,7 +38,7 @@ public class PointsHandler implements PointsHandlerInterface{
 			currPoints += WORDGUESSEDPOINTSAMOUNT;
 		}
 		
-		if (numLettersGuessedCorrectly == (hintPointDeduction / LETTERSGUESSEDPOINTSMULTIPLIER))
+		if ((numLettersGuessedCorrectly == (hintPointDeduction / LETTERSGUESSEDPOINTSMULTIPLIER)) && (numLettersGuessedCorrectly != 0))
 			currPoints = 0;
 		else
 			currPoints -= hintPointDeduction;
