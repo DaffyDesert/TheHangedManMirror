@@ -9,8 +9,12 @@ public class HowToPanel extends JPanel {
 
     private MainGUI myMain;
 
+    private AudioPlayerInterface AudioPlayer;
+
     public HowToPanel(MainGUI mainPass) {
         myMain = mainPass;
+
+        AudioPlayer = new AudioPlayer();
 
         setLayout(new BorderLayout());
         
@@ -52,7 +56,15 @@ public class HowToPanel extends JPanel {
     
         JPanel buttonPanel = new JPanel();
         JButton backButton = new JButton(new ChangeToAction("Back to Main Menu", MainMenuPanel.NAME, myMain));
-    
+        
+        backButton.addActionListener(e -> buttonClicked());
+
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
         buttonPanel.add(backButton);
     
         tempPanel.add(scrollPane, BorderLayout.CENTER);
@@ -60,5 +72,11 @@ public class HowToPanel extends JPanel {
     
         return tempPanel;
     }
-
+    
+    /*
+     * Plays button select sound on any other button selected.
+     */
+    private void buttonClicked() {
+        AudioPlayer.buttonClick();
+    }
 }

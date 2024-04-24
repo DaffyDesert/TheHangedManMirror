@@ -5,6 +5,8 @@ public class MainMenuPanel extends JPanel {
 
     public static final String NAME = "MAIN";
 
+    private AudioPlayerInterface AudioPlayer;
+
     private CardLayout cLayout;
     private JPanel buttonScreens;
 
@@ -18,6 +20,7 @@ public class MainMenuPanel extends JPanel {
 
     public MainMenuPanel(MainGUI mainPass) {
         myMain = mainPass;
+        AudioPlayer = new AudioPlayer();
         JPanel tempPanel = new JPanel();
         GridLayout tempLayout = new GridLayout(1, 2);
         tempLayout.setHgap(25);
@@ -77,6 +80,8 @@ public class MainMenuPanel extends JPanel {
         quitButton = new JButton("Quit Game");
 
         playButton.addActionListener(e -> buttonClicked(ButtonValues.PLAY));
+        howToButton.addActionListener(e -> otherButtonClicked());
+        customButton.addActionListener(e -> otherButtonClicked());
         quitButton.addActionListener(e -> buttonClicked(ButtonValues.QUIT));
 
         tempPanel.add(new JLabel(""));
@@ -85,6 +90,30 @@ public class MainMenuPanel extends JPanel {
         tempPanel.add(customButton);
         tempPanel.add(quitButton);
         tempPanel.add(new JLabel(""));
+
+        playButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+        
+        howToButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+        
+        customButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+        
+        quitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
 
         return tempPanel;
     }
@@ -105,7 +134,48 @@ public class MainMenuPanel extends JPanel {
         arcadeButton = new JButton(new ChangeToAction("Arcade Mode", GamePanel.NAME, myMain, GameDifficulty.ARCADE));
         backButton = new JButton("Back to Main Menu");
 
+        easyButton.addActionListener(e -> otherButtonClicked());
+        mediumButton.addActionListener(e -> otherButtonClicked());
+        hardButton.addActionListener(e -> otherButtonClicked());
+        extremeButton.addActionListener(e -> otherButtonClicked());
+        arcadeButton.addActionListener(e -> otherButtonClicked());
         backButton.addActionListener(e -> buttonClicked(ButtonValues.BACK));
+
+        easyButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        mediumButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        hardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        extremeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        arcadeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
 
         tempPanel.add(new JLabel(""));
         tempPanel.add(easyButton);
@@ -122,15 +192,24 @@ public class MainMenuPanel extends JPanel {
     private void buttonClicked(ButtonValues buttonValue) {
         switch (buttonValue) {
             case PLAY:
+                AudioPlayer.buttonClick();
                 cLayout.show(buttonScreens, "MODE_BUTTONS");
                 break;
             case QUIT:
                 System.exit(0);
                 break;
-            case BACK: 
+            case BACK:
+                AudioPlayer.buttonClick();
                 cLayout.show(buttonScreens, "MAIN_BUTTONS");
                 break;
         }
+    }
+
+    /*
+     * Plays button select sound on any other button selected.
+     */
+    private void otherButtonClicked() {
+        AudioPlayer.buttonClick();
     }
 
     public void correctScreenDisplay() {

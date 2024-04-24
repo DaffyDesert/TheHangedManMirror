@@ -10,9 +10,13 @@ public class EndPanel extends JPanel {
     private MainGUI myMain;
     private ChangeToAction againAction;
 
+    private AudioPlayerInterface AudioPlayer;
+
     public EndPanel(MainGUI mainPass) {
         myMain = mainPass;
         
+        AudioPlayer = new AudioPlayer();
+
         setLayout(new BorderLayout());
 
         Box box = Box.createVerticalBox();
@@ -54,6 +58,27 @@ public class EndPanel extends JPanel {
         JButton againButton = new JButton(againAction);
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
+
+        againButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        menuButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        quitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+        
+        againButton.addActionListener(e -> otherButtonClicked());
+        menuButton.addActionListener(e -> otherButtonClicked());
         quitButton.addActionListener(e -> quitButtonClicked());
         
         statusPanel.add(againButton);
@@ -72,6 +97,13 @@ public class EndPanel extends JPanel {
     }
 
     /*
+     * Plays button select sound on any other button selected.
+     */
+    private void otherButtonClicked() {
+        AudioPlayer.buttonClick();
+    }
+
+    /*
      * Takes in the game stats as an array,
      * assigning temp variables with these values and
      * using them to create the game stats display
@@ -86,8 +118,10 @@ public class EndPanel extends JPanel {
         
         if (isGameWon) {
             statusLabel.setText("You won!");
+            AudioPlayer.gameWon();
         } else {
             statusLabel.setText("You lost.");
+            AudioPlayer.gameLost();
         }
         
         pointsLabel.setText("Total Points: " + pointsValue);

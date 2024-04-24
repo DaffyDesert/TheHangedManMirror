@@ -9,9 +9,13 @@ public class ArcadePanel extends JPanel{
     private MainGUI myMain;
     private ChangeToAction againAction;
 
+    private AudioPlayerInterface AudioPlayer;
+
     public ArcadePanel(MainGUI mainPass) {
         myMain = mainPass;
         
+        AudioPlayer = new AudioPlayer();
+
         setLayout(new BorderLayout());
 
         Box box = Box.createVerticalBox();
@@ -54,8 +58,21 @@ public class ArcadePanel extends JPanel{
         
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
+        menuButton.addActionListener(e -> menuButtonClicked());
         quitButton.addActionListener(e -> quitButtonClicked());
         
+        menuButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+        
+        quitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
         statusPanel.add(againButton);
         statusPanel.add(menuButton);
         statusPanel.add(quitButton);
@@ -69,6 +86,10 @@ public class ArcadePanel extends JPanel{
      */
     private void quitButtonClicked() {
         System.exit(0);
+    }
+
+    private void menuButtonClicked() {
+        AudioPlayer.buttonClick();
     }
 
     /*
