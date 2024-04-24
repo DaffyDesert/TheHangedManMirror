@@ -11,16 +11,20 @@ public class MainGUI extends JFrame {
 
     private GamePanel gamePanel;
     private EndPanel endPanel;
+    private ArcadePanel arcadePanel;
     private MainMenuPanel mainPanel;
+    private CustomPanel customPanel;
+    private HowToPanel howToPanel;
 
     public Font tarotFont;
+    
+    private GameplayLogicInterface gameplayLogic;
 
     public MainGUI() {
         setTitle("The Hanged Man: A Hangman Experience");
         setPreferredSize(new Dimension(1500, 1000)); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //createFont(); 
         UIManagerUtil.setUIFont("res/Alice_in_Wonderland_3.ttf", 40f);
 
         createCardLayout();
@@ -46,11 +50,17 @@ public class MainGUI extends JFrame {
         mainPanel = new MainMenuPanel(this);
         gamePanel = new GamePanel(this);
         endPanel = new EndPanel(this);
+        howToPanel = new HowToPanel(this);
+        arcadePanel = new ArcadePanel(this);
+        customPanel = new CustomPanel(this);
 
         // Adding them to the screens JPanel
         screens.add(mainPanel, MainMenuPanel.NAME);
         screens.add(gamePanel, GamePanel.NAME);
         screens.add(endPanel, EndPanel.NAME);
+        screens.add(howToPanel, HowToPanel.NAME);
+        screens.add(arcadePanel, ArcadePanel.NAME);
+        screens.add(customPanel, CustomPanel.NAME);
 
         showCard(currentPanel);
     }
@@ -69,7 +79,7 @@ public class MainGUI extends JFrame {
         add(screens);
     }
 
-    private void changeTheme(String themeName) {
+    public void changeTheme(String themeName) {
         if (themeName.compareTo("SunriseTheme") == 0) {
             try {
                 UIManager.setLookAndFeel(new SunriseTheme());
@@ -97,7 +107,7 @@ public class MainGUI extends JFrame {
             }
         }
 
-        updateScreens(MainMenuPanel.NAME); //FIXME, replace with custom screen
+        updateScreens(CustomPanel.NAME);
     }
 
     /**
@@ -113,15 +123,25 @@ public class MainGUI extends JFrame {
         //If back to the main screen, it should show the true front menu
         if (key.equals(MainMenuPanel.NAME)) {
             mainPanel.correctScreenDisplay();
+            gameplayLogic = null;
         }
-
+        
         //If the game is over and we are on the end panel
         //Save the game stats, update all screens, and send game 
         //stats to end screen
         if (key.equals(EndPanel.NAME) && gamePanel.isGameOver()) {
-            String[] gameInformationArray = getGameStats();
-            //updateScreens(EndPanel.NAME); NOT NEEDED
+            String[] gameInformationArray = getGameStats();            
             endPanel.parseGameStats(gameInformationArray);
+            
+            gameplayLogic = null;
+        }
+        
+        //If the game is over and we are on the arcade panel
+        //Save the game stats, update all screens, and send game 
+        //stats to arcade screen
+        if (key.equals(ArcadePanel.NAME) && gamePanel.isGameOver()) {
+            String[] gameInformationArray = getGameStats();
+            arcadePanel.parseGameStats(gameInformationArray);
         }
     }
 
@@ -130,9 +150,19 @@ public class MainGUI extends JFrame {
      * Function overload as it passes in the game difficulty
      */
     public void showCard(String key, GameDifficulty difficulty) {
+        
         cLayout.show(screens, key);
-
-        gamePanel.runGameRound(difficulty);
+        
+        if(gameplayLogic == null) {
+        	if(difficulty == GameDifficulty.ARCADE) {
+        		gameplayLogic = new ArcadeGameplayLogic();
+        	}
+        	else {
+        		gameplayLogic = new RegularGameplayLogic();
+        	}
+        }
+        
+        gamePanel.runGameRound(difficulty, gameplayLogic);
     }
 
     /**

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class RegularGameplayLogic implements RegularGameplayLogicInterface {
+public class RegularGameplayLogic implements GameplayLogicInterface {
 	private String targetWord;
 	private WordGenerator wordGen;
 	private GuessHandlerInterface guessHandler;

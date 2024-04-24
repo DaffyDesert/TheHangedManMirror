@@ -62,7 +62,7 @@ public class WordGenerator {
 		String word = "";
 		while (loop) {
 			word  = dictionary.getWord();
-			if (difficulty == GameDifficulty.ALL) return word;
+			if (difficulty == GameDifficulty.ALL || difficulty == GameDifficulty.ARCADE) return word;
 			
 			if (difficulty == GameDifficulty.EASY) {
 				if (isEasy(word)) {

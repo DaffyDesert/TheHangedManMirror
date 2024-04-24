@@ -10,7 +10,7 @@ public class GamePanel extends JPanel {
 
     private JTextField guessField;
 
-    private RegularGameplayLogic newGame;
+    private GameplayLogicInterface newGame;
 
     private MainGUI myMain;
 
@@ -121,8 +121,8 @@ public class GamePanel extends JPanel {
      * Calls updateGameGraphics() to ensure screen
      * shows the game round specific graphics.
      */
-    public void runGameRound(GameDifficulty difficulty) {
-        newGame = new RegularGameplayLogic();
+    public void runGameRound(GameDifficulty difficulty, GameplayLogicInterface gameplayLogic) {
+        newGame = gameplayLogic;
         newGame.startGame(difficulty);
 
         errorLabel.setText("");
@@ -257,9 +257,13 @@ public class GamePanel extends JPanel {
      */
     public void checkGameOver() {
         if(newGame.isGameOver()) {
-            myMain.showCard(EndPanel.NAME);
+        	if(newGame.getGameDifficulty() == GameDifficulty.ARCADE && newGame.isGameWon()) {
+        		myMain.showCard(ArcadePanel.NAME);
+        	}
+        	else {
+        		myMain.showCard(EndPanel.NAME);
+        	}
         }
-        
     }
 
     public boolean isGameOver() {

@@ -1,16 +1,15 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class EndPanel extends JPanel {
-
-    public static final String NAME = "END";
+public class ArcadePanel extends JPanel{
+    public static final String NAME = "ARCADE";
 
     private JLabel statusLabel, pointsLabel, wordLabel;
 
     private MainGUI myMain;
     private ChangeToAction againAction;
 
-    public EndPanel(MainGUI mainPass) {
+    public ArcadePanel(MainGUI mainPass) {
         myMain = mainPass;
         
         setLayout(new BorderLayout());
@@ -50,8 +49,9 @@ public class EndPanel extends JPanel {
     private JPanel createButtonPanel() {
         JPanel statusPanel = new JPanel();
 
-        againAction = new ChangeToAction("Play Again", GamePanel.NAME, myMain);
+        againAction = new ChangeToAction("Continue to Next Level", GamePanel.NAME, myMain, GameDifficulty.ARCADE);
         JButton againButton = new JButton(againAction);
+        
         JButton menuButton =  new JButton(new ChangeToAction("Return to Menu", MainMenuPanel.NAME, myMain));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> quitButtonClicked());
@@ -82,15 +82,10 @@ public class EndPanel extends JPanel {
         String gameWord = gameInformation[1];
         String pointsValue = gameInformation[2];
         String gameDifficulty = gameInformation[3];
-        againAction.setDifficulty(gameDifficulty);
         
-        if (isGameWon) {
-            statusLabel.setText("You won!");
-        } else {
-            statusLabel.setText("You lost.");
-        }
-        
-        pointsLabel.setText("Total Points: " + pointsValue);
+        statusLabel.setText("Arcade Mode - Level Successfully Completed!");  
+       
+        pointsLabel.setText("Total Accumulated Points: " + pointsValue);
         wordLabel.setText("The word was: " + gameWord);
     }
 }
