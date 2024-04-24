@@ -14,8 +14,11 @@ public class GamePanel extends JPanel {
 
     private MainGUI myMain;
 
+    private AudioPlayerInterface AudioPlayer;
+
     public GamePanel(MainGUI mainPass) {
         myMain = mainPass;
+        AudioPlayer = new AudioPlayer();
         setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel();
@@ -113,6 +116,19 @@ public class GamePanel extends JPanel {
         tempPanel.add(buttonPanel);
         tempPanel.add(errorLabel);
 
+        letterButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+        wordButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+
+
         return tempPanel;
     }
 
@@ -181,14 +197,18 @@ public class GamePanel extends JPanel {
                 if (newGame.isCorrectLetterGuess(userInput)) {
                     errorLabel.setText("Correct letter guess.");
                     newGame.addGuessToHintGen(userInput.charAt(0));
+                    AudioPlayer.correctGuess();
                 } else {
                     errorLabel.setText("Incorrect letter guess, penalty.");
+                    AudioPlayer.incorrectGuess();
                 }
             } else {
                 errorLabel.setText("You have guessed the letter \'" + userInput + "\' before, no penalty.");
+                AudioPlayer.incorrectGuess();
             }
         } else {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a letter guess, no penalty.");
+            AudioPlayer.incorrectGuess();
         }
         updateGameGraphics();
         checkGameOver();
@@ -211,12 +231,15 @@ public class GamePanel extends JPanel {
                     errorLabel.setText("Correct word guess.");
                 } else {
                     errorLabel.setText("Incorrect word guess, penalty.");
+                    AudioPlayer.incorrectGuess();
                 }
             } else {
                 errorLabel.setText("You have guessed the word \'" + userInput + "\' before, no penalty.");
+                AudioPlayer.incorrectGuess();
             }
         } else {
             errorLabel.setText("Your input \'" + userInput + "\' is not valid for a word guess, no penalty.");
+            AudioPlayer.incorrectGuess();
         }
         updateGameGraphics();
         checkGameOver();
@@ -259,6 +282,7 @@ public class GamePanel extends JPanel {
         if(newGame.isGameOver()) {
         	if(newGame.getGameDifficulty() == GameDifficulty.ARCADE && newGame.isGameWon()) {
         		myMain.showCard(ArcadePanel.NAME);
+                AudioPlayer.gameWon();
         	}
         	else {
         		myMain.showCard(EndPanel.NAME);
