@@ -127,6 +127,12 @@ public class GamePanel extends JPanel {
                 AudioPlayer.buttonHover();
             }
         });
+        
+        hintButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
 
 
         return tempPanel;
@@ -256,6 +262,7 @@ public class GamePanel extends JPanel {
     		if (!newGame.hasGuessedLetterBefore(hint)) {
     			if (newGame.isCorrectLetterGuess(hint)) {
     				errorLabel.setText("Hint applied.");
+    				AudioPlayer.correctGuess();
     			}
     			else {
     				errorLabel.setText("Error: Why is the hint wrong??");
