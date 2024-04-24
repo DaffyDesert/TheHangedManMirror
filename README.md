@@ -21,7 +21,7 @@ The Driver.java file will start the program. Start by pressing the play button i
     - Located below the status of the target word is the list of all incorrect letters guessed by the user for this current gameplay session, followed by the same for all incorrect words guessed by the user.
     - Located on the bottom right-hand side of the window is a textbox for the user to input a letter or word, and submit a guess for either by using the two buttons below the text area. The guessing mechanic of the game will prevent the user from making the same guess twice and will notify them if this is attempted.
     - While playing the game, the user also has the option to use hints during their gameplay process. When using a hint, one letter will be revealed in the target word at a time. However, the user's score will be reduced correspondingly for each hint the user uses.
-    - Finally, the user will also hear sounds corresponding to page navigation, button usage, and correct & incorrect answers during their gameplay experience. The user will hear a G Sharp Major Chord upon guessing a correct answer, and a G Sharp Minor Cord upon guessing an incorrect answer.
+    - Finally, the user will also hear sounds corresponding to page navigation, button usage, and correct & incorrect answers during their gameplay experience. The user will hear a G Sharp Major Chord upon guessing a correct answer, and a G Sharp Minor Chord upon guessing an incorrect answer.
   
 3. The user will interact with the text area and guess submission buttons as the main form of gameplay. These items within the game window act as the main form of control for the user to play the game.
       
