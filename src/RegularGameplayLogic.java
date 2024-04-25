@@ -5,6 +5,7 @@ public class RegularGameplayLogic implements GameplayLogicInterface {
 	private WordGenerator wordGen;
 	private GuessHandlerInterface guessHandler;
 	private PointsHandlerInterface pointsHandler;
+	private HintGenerator hints;
 	
 	RegularGameplayLogic() {	
 		this.wordGen = new WordGenerator();
@@ -17,6 +18,7 @@ public class RegularGameplayLogic implements GameplayLogicInterface {
 	public void startGame(GameDifficulty difficulty) {	
 		targetWord = wordGen.getWord(difficulty);	
 		guessHandler = new GuessHandler(targetWord);
+		hints = new HintGenerator(targetWord);
 		
 		if(difficulty.equals(GameDifficulty.ALL)) {
 			difficulty = wordGen.getWordDifficulty(targetWord);
@@ -151,7 +153,10 @@ public class RegularGameplayLogic implements GameplayLogicInterface {
 	
 	//Calculates the Current Game Points based on the Guess Critera
 	public void calculateGamePoints() {
-		pointsHandler.calculatePoints(guessHandler.getMaxGuesses() - guessHandler.getNumIncorrectGuessesMade(), guessHandler.getNumCorrectLetterGuessesMade(), guessHandler.targetWordGuessedSuccessfully());
+		pointsHandler.calculatePoints(guessHandler.getMaxGuesses() - guessHandler.getNumIncorrectGuessesMade(), 
+				                      guessHandler.getNumCorrectLetterGuessesMade(), 
+				                      guessHandler.targetWordGuessedSuccessfully(),
+				                      hints.getPointDeduction());
 	}
 	
 	//Returns the Total Game Points for the Current Game Session
@@ -161,5 +166,14 @@ public class RegularGameplayLogic implements GameplayLogicInterface {
 
 	public GameDifficulty getGameDifficulty() {
 		return wordGen.getCurrentDifficulty();
+	}
+	
+	public void addGuessToHintGen(char letter) {
+		hints.addUsedChar(letter);
+	}
+	
+	public char generateHint() {
+		hints.generateHint();
+		return hints.getHint();
 	}
 }

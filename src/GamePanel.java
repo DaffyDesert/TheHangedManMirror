@@ -100,6 +100,9 @@ public class GamePanel extends JPanel {
 
         JButton wordButton = new JButton("Guess Word");
         wordButton.addActionListener(e -> wordButtonClicked());
+        
+        JButton hintButton = new JButton("Get Hint");
+        hintButton.addActionListener(e -> hintButtonClicked());
 
         errorLabel = new JLabel();
         errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -107,6 +110,7 @@ public class GamePanel extends JPanel {
 
         buttonPanel.add(letterButton);
         buttonPanel.add(wordButton);
+        buttonPanel.add(hintButton);
 
         tempPanel.add(guessField);
         tempPanel.add(buttonPanel);
@@ -119,6 +123,12 @@ public class GamePanel extends JPanel {
         });
 
         wordButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AudioPlayer.buttonHover();
+            }
+        });
+        
+        hintButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 AudioPlayer.buttonHover();
             }
@@ -192,8 +202,8 @@ public class GamePanel extends JPanel {
             if (!newGame.hasGuessedLetterBefore(userInput)) {
                 if (newGame.isCorrectLetterGuess(userInput)) {
                     errorLabel.setText("Correct letter guess.");
+                    newGame.addGuessToHintGen(userInput.charAt(0));
                     AudioPlayer.correctGuess();
-
                 } else {
                     errorLabel.setText("Incorrect letter guess, penalty.");
                     AudioPlayer.incorrectGuess();
@@ -239,6 +249,34 @@ public class GamePanel extends JPanel {
         }
         updateGameGraphics();
         checkGameOver();
+    }
+    
+    /*
+     * Called when the hintButton is pressed
+     * calls game logic to generate a hint and update the
+     * guess field accordingly
+     */
+    private void hintButtonClicked() {
+    	String hint = String.valueOf(newGame.generateHint());
+    	if (newGame.isValidLetterGuess(hint)) {
+    		if (!newGame.hasGuessedLetterBefore(hint)) {
+    			if (newGame.isCorrectLetterGuess(hint)) {
+    				errorLabel.setText("Hint applied.");
+    				AudioPlayer.correctGuess();
+    			}
+    			else {
+    				errorLabel.setText("Error: Why is the hint wrong??");
+    			}
+    		}
+    		else {
+    			errorLabel.setText("Error: Why is the hint giving a dupe?");
+    		}
+    	}
+    	else {
+    		errorLabel.setText("Error: Why is the hint not valid?");
+    	}
+    	updateGameGraphics();
+    	checkGameOver();
     }
 
     /**

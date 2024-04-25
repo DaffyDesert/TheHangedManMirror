@@ -20,4 +20,6 @@ public interface GameplayLogicInterface {
 	public void calculateGamePoints();
 	public int getGamePoints();
 	public GameDifficulty getGameDifficulty();
+	public void addGuessToHintGen(char letter);
+	public char generateHint();
 }
